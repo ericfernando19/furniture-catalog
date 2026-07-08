@@ -1,0 +1,98 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  --color-wood: #8B6914;
+  --color-wood-light: #D2B48C;
+  --color-wood-dark: #6B4F10;
+  --color-wood-hover: #A0781A;
+  --color-leaf: #2D5A27;
+  --color-cream: #FFF8F0;
+  --color-cream-dark: #F5EDE0;
+
+  --color-surface: #FFFFFF;
+  --color-surface-muted: #FFF8F0;
+  --color-muted: #8B7355;
+  --color-text: #4A3728;
+  --color-text-heading: #3E2723;
+  --color-border: #E8DCC8;
+
+  --color-dark-bg: #1A120B;
+  --color-dark-surface: #2C1810;
+  --color-dark-text: #F5EDE0;
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  * {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-surface-muted);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .dark body,
+  body.dark {
+    background-color: var(--color-dark-bg);
+    color: var(--color-dark-text);
+  }
+
+  ::selection {
+    background-color: #8B6914;
+    color: #FFF8F0;
+  }
+
+  .dark ::selection {
+    background-color: #D2B48C;
+    color: #1A120B;
+  }
+}
+
+@layer components {
+  .container-premium {
+    @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .card-premium {
+    @apply rounded-2xl border border-[#E8DCC8] bg-white shadow-sm transition-all duration-300;
+  }
+
+  .dark .card-premium {
+    @apply border-[#3E2723] bg-dark-surface shadow-lg shadow-black/20;
+  }
+
+  .text-gradient-wood {
+    background: linear-gradient(135deg, #8B6914, #D2B48C, #8B6914);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .wood-border {
+    border-color: #8B6914;
+  }
+
+  .hover-wood {
+    transition: all 0.3s ease;
+  }
+
+  .hover-wood:hover {
+    color: #8B6914;
+  }
+
+  .skeleton-pulse {
+    @apply animate-pulse rounded-lg bg-[#E8DCC8];
+  }
+
+  .dark .skeleton-pulse {
+    @apply bg-[#3E2723];
+  }
+}
