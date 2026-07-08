@@ -6,6 +6,7 @@ import { requireAdmin } from "@/lib/auth";
 import { formatPrice, formatDate } from "@/lib/utils";
 import { EmptyState } from "@/components/public/EmptyState";
 import { DeleteButton } from "./DeleteButton";
+import { AddProductModal } from "./AddProductModal";
 
 export const metadata: Metadata = {
   title: "Produk",
@@ -26,20 +27,13 @@ export default async function AdminProductsPage() {
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#8B6914]">Admin</p>
           <h1 className="mt-1 text-2xl font-bold text-[#3E2723] dark:text-[#F5EDE0]">Produk</h1>
         </div>
-        <Link
-          href="/admin/products/create"
-          className="rounded-xl bg-[#8B6914] px-5 py-2.5 text-sm font-bold text-[#3E2723] shadow-sm transition-all duration-200 hover:bg-[#A0781A]"
-        >
-          + Tambah Produk
-        </Link>
+        <AddProductModal />
       </div>
 
       {products.length === 0 ? (
         <EmptyState
           title="Belum ada produk"
-          description="Tambahkan produk pertama Anda."
-          actionLabel="Tambah Produk"
-          actionHref="/admin/products/create"
+          description="Klik tombol Tambah Produk untuk memulai."
         />
       ) : (
         <div className="overflow-hidden rounded-2xl border border-gray-100 dark:border-gray-800">

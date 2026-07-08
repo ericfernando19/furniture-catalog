@@ -177,17 +177,21 @@ export function CategoryManager({ categories }: CategoryManagerProps) {
       </Modal>
 
       <Modal open={deleteOpen} onClose={() => setDeleteOpen(false)} title="Hapus Kategori">
-        <p className="text-sm text-[#4A3728] dark:text-gray-300">
-          Apakah Anda yakin ingin menghapus kategori <strong>{deleting?.name}</strong>?
+        <div className="text-sm text-[#4A3728] dark:text-gray-300 space-y-3">
+          <p>Apakah Anda yakin ingin menghapus kategori berikut?</p>
+          <p className="break-words rounded-xl bg-red-50 px-4 py-3 font-semibold text-red-700 dark:bg-red-900/20 dark:text-red-400">
+            {deleting?.name}
+          </p>
           {deleting && deleting._count.products > 0 && (
-            <span className="mt-2 block text-red-500">
-              Kategori ini memiliki {deleting._count.products} produk. Produk dalam kategori ini juga akan terhapus.
-            </span>
+            <p className="rounded-xl bg-yellow-50 px-4 py-3 text-xs text-yellow-700 dark:bg-yellow-900/20 dark:text-yellow-400">
+              Kategori ini memiliki <strong>{deleting._count.products} produk</strong> yang juga akan terhapus.
+            </p>
           )}
-        </p>
+          <p className="text-xs text-gray-400">Tindakan ini tidak dapat dibatalkan.</p>
+        </div>
         <div className="mt-6 flex justify-end gap-3">
           <Button variant="outline" onClick={() => setDeleteOpen(false)}>Batal</Button>
-          <Button variant="danger" onClick={handleDelete} loading={loading}>Hapus</Button>
+          <Button variant="danger" onClick={handleDelete} loading={loading}>Ya, Hapus</Button>
         </div>
       </Modal>
     </>

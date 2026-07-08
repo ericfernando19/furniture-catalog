@@ -3,6 +3,13 @@ import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
 import { slugify } from "@/lib/utils";
 
+export async function GET() {
+  const categories = await prisma.category.findMany({
+    orderBy: { name: "asc" },
+  });
+  return NextResponse.json(categories);
+}
+
 export async function POST(request: Request) {
   const session = await getSession();
   if (!session) {

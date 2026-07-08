@@ -43,15 +43,19 @@ export function DeleteButton({ productId, productName }: DeleteButtonProps) {
         Hapus
       </button>
       <Modal open={open} onClose={() => setOpen(false)} title="Hapus Produk">
-        <p className="text-sm text-[#4A3728] dark:text-gray-300">
-          Apakah Anda yakin ingin menghapus <strong>{productName}</strong>? Tindakan ini tidak dapat dibatalkan.
-        </p>
+        <div className="text-sm text-[#4A3728] dark:text-gray-300 space-y-3">
+          <p>Apakah Anda yakin ingin menghapus produk berikut?</p>
+          <p className="break-words rounded-xl bg-red-50 px-4 py-3 font-semibold text-red-700 dark:bg-red-900/20 dark:text-red-400">
+            {productName}
+          </p>
+          <p className="text-xs text-gray-400">Tindakan ini tidak dapat dibatalkan.</p>
+        </div>
         <div className="mt-6 flex justify-end gap-3">
           <Button variant="outline" onClick={() => setOpen(false)}>
             Batal
           </Button>
           <Button variant="danger" onClick={handleDelete} loading={loading}>
-            Hapus
+            Ya, Hapus
           </Button>
         </div>
       </Modal>

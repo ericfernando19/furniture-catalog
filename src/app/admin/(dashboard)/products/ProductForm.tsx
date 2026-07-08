@@ -13,9 +13,10 @@ import type { Product, Category } from "@/generated/prisma/client";
 interface ProductFormProps {
   categories: Category[];
   product?: Product;
+  onSuccess?: () => void;
 }
 
-export function ProductForm({ categories, product }: ProductFormProps) {
+export function ProductForm({ categories, product, onSuccess }: ProductFormProps) {
   const router = useRouter();
   const toast = useToast();
   const [uploading, setUploading] = useState(false);
@@ -87,7 +88,11 @@ export function ProductForm({ categories, product }: ProductFormProps) {
     }
 
     toast.success(isEdit ? "Produk berhasil diperbarui" : "Produk berhasil ditambahkan");
-    router.push("/admin/products");
+    if (onSuccess) {
+      onSuccess();
+    } else {
+      router.push("/admin/products");
+    }
     router.refresh();
   }
 
@@ -199,7 +204,7 @@ export function ProductForm({ categories, product }: ProductFormProps) {
         <Button
           type="button"
           variant="outline"
-          onClick={() => router.push("/admin/products")}
+          onClick={() => { if (onSuccess) onSuccess(); else router.push("/admin/products"); }}
         >
           Batal
         </Button>
