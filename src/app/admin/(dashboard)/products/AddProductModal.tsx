@@ -24,10 +24,8 @@ export function AddProductModal() {
       >
         + Tambah Produk
       </button>
-      <Modal open={open} onClose={() => setOpen(false)} title="Tambah Produk Baru">
-        <div className="max-h-[70vh] overflow-y-auto">
-          <ProductForm categories={categories} onSuccess={() => setOpen(false)} />
-        </div>
+      <Modal open={open} onClose={() => setOpen(false)} title="Tambah Produk Baru" className="max-w-xl">
+        <ProductForm categories={categories} onSuccess={() => setOpen(false)} inModal />
       </Modal>
     </>
   );

@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/auth";
 import { formatPrice, formatDate } from "@/lib/utils";
 import { EmptyState } from "@/components/public/EmptyState";
 import { DeleteButton } from "./DeleteButton";
 import { AddProductModal } from "./AddProductModal";
+import { EditProductModal } from "./EditProductModal";
 
 export const metadata: Metadata = {
   title: "Produk",
@@ -85,12 +85,7 @@ export default async function AdminProductsPage() {
                       {formatDate(product.createdAt)}
                     </td>
                     <td className="whitespace-nowrap px-5 py-4 text-right">
-                      <Link
-                        href={`/admin/products/${product.id}/edit`}
-                        className="rounded-lg px-3 py-1.5 text-sm font-semibold text-[#8B6914] transition-colors hover:bg-[#8B6914]/10"
-                      >
-                        Edit
-                      </Link>
+                      <EditProductModal productId={product.id} productName={product.name} />
                       <DeleteButton productId={product.id} productName={product.name} />
                     </td>
                   </tr>

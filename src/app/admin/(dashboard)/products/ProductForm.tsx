@@ -14,9 +14,10 @@ interface ProductFormProps {
   categories: Category[];
   product?: Product;
   onSuccess?: () => void;
+  inModal?: boolean;
 }
 
-export function ProductForm({ categories, product, onSuccess }: ProductFormProps) {
+export function ProductForm({ categories, product, onSuccess, inModal }: ProductFormProps) {
   const router = useRouter();
   const toast = useToast();
   const [uploading, setUploading] = useState(false);
@@ -97,11 +98,13 @@ export function ProductForm({ categories, product, onSuccess }: ProductFormProps
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-      <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-[#2C1810]">
-        <h2 className="mb-5 font-bold text-[#3E2723] dark:text-[#F5EDE0]">
-          {isEdit ? "Edit Produk" : "Informasi Produk"}
-        </h2>
+    <form onSubmit={handleSubmit(onSubmit)} className={inModal ? "space-y-6" : "space-y-5"}>
+      <div className={inModal ? "space-y-4" : "rounded-2xl border border-gray-100 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-[#2C1810]"}>
+        {!inModal && (
+          <h2 className="text-lg font-bold text-[#3E2723] dark:text-[#F5EDE0]">
+            {isEdit ? "Edit Produk" : "Informasi Produk"}
+          </h2>
+        )}
         <div className="space-y-4">
           <Input
             id="name"

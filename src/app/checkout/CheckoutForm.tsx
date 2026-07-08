@@ -53,7 +53,6 @@ export function CheckoutForm() {
     const orderData = {
       ...data,
       items: items.map((i) => ({
-        productId: i.id,
         productName: i.name,
         quantity: i.quantity,
         price: i.price,
@@ -64,6 +63,7 @@ export function CheckoutForm() {
     localStorage.setItem("katalog-toko-last-order", JSON.stringify(orderData));
     clearCart();
     window.open(waUrl, "_blank");
+    setTimeout(() => { window.location.href = "/receipt"; }, 300);
   }
 
   if (items.length === 0) {

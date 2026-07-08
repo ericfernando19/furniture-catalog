@@ -6,6 +6,7 @@ import { requireAdmin } from "@/lib/auth";
 import { formatPrice, formatDate } from "@/lib/utils";
 import { Badge } from "@/components/admin/Badge";
 import { OrderActions } from "./OrderActions";
+import { PrintReceipt } from "./PrintReceipt";
 
 export const metadata: Metadata = {
   title: "Detail Pesanan",
@@ -118,6 +119,25 @@ export default async function OrderDetailPage({ params }: OrderDetailProps) {
             currentStatus={order.status}
             customerPhone={order.phone}
           />
+
+          <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-[#2C1810]">
+            <PrintReceipt
+              order={{
+                id: order.id,
+                customerName: order.customerName,
+                phone: order.phone,
+                address: order.address,
+                notes: order.notes,
+                totalAmount: order.totalAmount,
+                createdAt: order.createdAt.toISOString(),
+                items: order.items.map((i) => ({
+                  productName: i.product.name,
+                  quantity: i.quantity,
+                  price: i.price,
+                })),
+              }}
+            />
+          </div>
         </div>
       </div>
     </div>
