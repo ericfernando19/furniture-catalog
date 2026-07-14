@@ -98,10 +98,10 @@ export function ProductForm({ categories, product, onSuccess, inModal }: Product
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={inModal ? "space-y-6" : "space-y-5"}>
-      <div className={inModal ? "space-y-4" : "rounded-2xl border border-gray-100 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-[#2C1810]"}>
+    <form onSubmit={handleSubmit(onSubmit)} className={inModal ? "space-y-5" : "space-y-5"}>
+      <div className={inModal ? "space-y-4" : "card-admin p-5"}>
         {!inModal && (
-          <h2 className="text-lg font-bold text-[#3E2723] dark:text-[#F5EDE0]">
+          <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
             {isEdit ? "Edit Produk" : "Informasi Produk"}
           </h2>
         )}
@@ -115,14 +115,14 @@ export function ProductForm({ categories, product, onSuccess, inModal }: Product
           />
 
           <div className="space-y-1.5">
-            <label htmlFor="description" className="block text-sm font-semibold text-[#4A3728] dark:text-gray-300">
+            <label htmlFor="description" className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
               Deskripsi
             </label>
             <textarea
               id="description"
               rows={4}
               placeholder="Masukkan deskripsi produk"
-              className="block w-full rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-[#3E2723] transition-all placeholder:text-gray-400 hover:border-gray-300 focus:border-[#8B6914] focus:outline-none focus:ring-2 focus:ring-[#8B6914]/20 dark:border-gray-700 dark:bg-[#2C1810] dark:text-[#F5EDE0]"
+              className="block w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 transition-colors placeholder:text-zinc-400 hover:border-zinc-300 focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100"
               {...register("description")}
             />
             {errors.description && (
@@ -150,12 +150,12 @@ export function ProductForm({ categories, product, onSuccess, inModal }: Product
           </div>
 
           <div className="space-y-1.5">
-            <label htmlFor="categoryId" className="block text-sm font-semibold text-[#4A3728] dark:text-gray-300">
+            <label htmlFor="categoryId" className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
               Kategori
             </label>
             <select
               id="categoryId"
-              className="block w-full rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-[#3E2723] transition-all hover:border-gray-300 focus:border-[#8B6914] focus:outline-none focus:ring-2 focus:ring-[#8B6914]/20 dark:border-gray-700 dark:bg-[#2C1810] dark:text-[#F5EDE0]"
+              className="block w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 transition-colors hover:border-zinc-300 focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100"
               {...register("categoryId")}
             >
               <option value="">Pilih kategori</option>
@@ -171,15 +171,15 @@ export function ProductForm({ categories, product, onSuccess, inModal }: Product
           </div>
 
           <div className="space-y-1.5">
-            <label className="block text-sm font-semibold text-[#4A3728] dark:text-gray-300">Gambar Produk</label>
+            <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">Gambar Produk</label>
             <input
               type="file"
               accept="image/*"
               onChange={handleUpload}
               disabled={uploading}
-              className="block w-full text-sm text-gray-500 file:mr-4 file:rounded-xl file:border-0 file:bg-[#8B6914]/10 file:px-4 file:py-2.5 file:text-sm file:font-semibold file:text-[#8B6914] hover:file:bg-[#8B6914]/20 dark:text-gray-400"
+              className="block w-full text-sm text-zinc-500 file:mr-4 file:rounded-lg file:border-0 file:bg-amber-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-amber-600 hover:file:bg-amber-100 dark:text-zinc-400"
             />
-            {uploading && <p className="text-sm text-[#8B6914]">Mengupload...</p>}
+            {uploading && <p className="text-sm text-amber-600">Mengupload...</p>}
             <input type="hidden" {...register("imageUrl")} />
             {errors.imageUrl && (
               <p className="text-sm font-medium text-red-500">{errors.imageUrl.message}</p>
@@ -190,10 +190,10 @@ export function ProductForm({ categories, product, onSuccess, inModal }: Product
             <input
               id="featured"
               type="checkbox"
-              className="h-4 w-4 rounded border-gray-300 text-[#8B6914] focus:ring-[#8B6914]"
+              className="h-4 w-4 rounded border-zinc-300 text-amber-600 focus:ring-amber-500"
               {...register("featured")}
             />
-            <label htmlFor="featured" className="text-sm text-[#4A3728] dark:text-gray-300">
+            <label htmlFor="featured" className="text-sm text-zinc-700 dark:text-zinc-300">
               Jadikan produk unggulan
             </label>
           </div>

@@ -64,23 +64,23 @@ export function ReportClient({ orders }: ReportClientProps) {
   const totalFiltered = filtered.reduce((sum, o) => sum + o.totalAmount, 0);
 
   return (
-    <div className="rounded-2xl border border-gray-100 bg-white shadow-sm dark:border-gray-800 dark:bg-[#2C1810]">
-      <div className="border-b border-gray-100 px-6 py-4 dark:border-gray-800">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <h2 className="font-bold text-[#3E2723] dark:text-[#F5EDE0]">Daftar Pesanan</h2>
-          <div className="flex items-center gap-3">
+    <div className="card-admin overflow-hidden">
+      <div className="border-b border-zinc-200 px-5 py-4 dark:border-zinc-700">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Daftar Pesanan</h2>
+          <div className="flex items-center gap-2">
             <input
               type="date"
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
-              className="rounded-xl border border-gray-200 px-3 py-1.5 text-sm text-[#3E2723] transition-all focus:border-[#8B6914] focus:outline-none focus:ring-2 focus:ring-[#8B6914]/20 dark:border-gray-700 dark:bg-[#1A120B] dark:text-[#F5EDE0]"
+              className="rounded-lg border border-zinc-200 px-3 py-1.5 text-sm text-zinc-900 transition-colors focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100"
             />
-            <span className="text-gray-400">-</span>
+            <span className="text-zinc-300 dark:text-zinc-600">-</span>
             <input
               type="date"
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
-              className="rounded-xl border border-gray-200 px-3 py-1.5 text-sm text-[#3E2723] transition-all focus:border-[#8B6914] focus:outline-none focus:ring-2 focus:ring-[#8B6914]/20 dark:border-gray-700 dark:bg-[#1A120B] dark:text-[#F5EDE0]"
+              className="rounded-lg border border-zinc-200 px-3 py-1.5 text-sm text-zinc-900 transition-colors focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100"
             />
             <Button
               variant="outline"
@@ -93,41 +93,39 @@ export function ReportClient({ orders }: ReportClientProps) {
         </div>
       </div>
 
-      <div className="border-b border-gray-100 bg-gray-50/50 px-6 py-3 dark:border-gray-800 dark:bg-[#1A120B]">
-        <div className="flex gap-6 text-sm">
-          <span className="text-gray-500 dark:text-gray-400">
-            Pesanan: <strong className="text-[#3E2723] dark:text-[#F5EDE0]">{filtered.length}</strong>
-          </span>
-          <span className="text-gray-500 dark:text-gray-400">
-            Total: <strong className="text-[#8B6914]">{formatPrice(totalFiltered)}</strong>
-          </span>
-        </div>
+      <div className="flex gap-6 border-b border-zinc-200 bg-zinc-50/50 px-5 py-3 text-sm dark:border-zinc-700 dark:bg-zinc-800/30">
+        <span className="text-zinc-500 dark:text-zinc-400">
+          Pesanan: <strong className="font-semibold text-zinc-900 dark:text-zinc-100">{filtered.length}</strong>
+        </span>
+        <span className="text-zinc-500 dark:text-zinc-400">
+          Total: <strong className="font-semibold text-amber-600">{formatPrice(totalFiltered)}</strong>
+        </span>
       </div>
 
       {filtered.length === 0 ? (
-        <div className="px-6 py-10 text-center text-sm text-gray-500 dark:text-gray-400">
+        <div className="px-5 py-12 text-center text-sm text-zinc-400">
           Tidak ada data pesanan.
         </div>
       ) : (
         <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead className="bg-gray-50 dark:bg-[#1A120B]">
+          <table className="table-admin">
+            <thead>
               <tr>
-                <th className="px-6 py-4 text-left text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">ID</th>
-                <th className="px-6 py-4 text-left text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">Pelanggan</th>
-                <th className="px-6 py-4 text-left text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">Total</th>
-                <th className="px-6 py-4 text-left text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">Status</th>
-                <th className="px-6 py-4 text-left text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">Tanggal</th>
+                <th>ID</th>
+                <th>Pelanggan</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Tanggal</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
+            <tbody>
               {filtered.map((order) => (
-                <tr key={order.id} className="transition-colors hover:bg-gray-50/50 dark:hover:bg-gray-800/50">
-                  <td className="px-6 py-4 text-sm font-medium text-[#3E2723] dark:text-[#F5EDE0]">#{order.id}</td>
-                  <td className="px-6 py-4 text-sm text-[#3E2723] dark:text-[#F5EDE0]">{order.customerName}</td>
-                  <td className="px-6 py-4 text-sm font-semibold text-[#8B6914]">{formatPrice(order.totalAmount)}</td>
-                  <td className="px-6 py-4"><Badge variant={statusColors[order.status] || "default"}>{order.status}</Badge></td>
-                  <td className="px-6 py-4 text-sm text-gray-500 dark:text-gray-400">{formatDate(order.createdAt)}</td>
+                <tr key={order.id}>
+                  <td className="font-medium text-zinc-900 dark:text-zinc-100">#{order.id}</td>
+                  <td className="text-zinc-900 dark:text-zinc-100">{order.customerName}</td>
+                  <td className="font-semibold tabular-nums text-amber-600">{formatPrice(order.totalAmount)}</td>
+                  <td><Badge variant={statusColors[order.status] || "default"}>{order.status}</Badge></td>
+                  <td className="text-zinc-500 dark:text-zinc-400">{formatDate(order.createdAt)}</td>
                 </tr>
               ))}
             </tbody>

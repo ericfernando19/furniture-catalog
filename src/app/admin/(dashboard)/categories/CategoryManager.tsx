@@ -101,44 +101,46 @@ export function CategoryManager({ categories }: CategoryManagerProps) {
       </div>
 
       {categories.length === 0 ? (
-        <div className="rounded-2xl border border-gray-100 bg-white py-10 text-center text-sm text-gray-500 dark:border-gray-800 dark:bg-[#2C1810] dark:text-gray-400">
+        <div className="card-admin px-5 py-12 text-center text-sm text-zinc-400">
           Belum ada kategori.
         </div>
       ) : (
-        <div className="overflow-hidden rounded-2xl border border-gray-100 dark:border-gray-800">
+        <div className="card-admin overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-100 dark:divide-gray-800">
-              <thead className="bg-gray-50 dark:bg-[#2C1810]">
+            <table className="table-admin">
+              <thead>
                 <tr>
-                  <th className="px-5 py-4 text-left text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">Nama</th>
-                  <th className="px-5 py-4 text-left text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">Slug</th>
-                  <th className="px-5 py-4 text-left text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">Produk</th>
-                  <th className="px-5 py-4 text-left text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">Tanggal</th>
-                  <th className="px-5 py-4 text-right text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">Aksi</th>
+                  <th>Nama</th>
+                  <th>Slug</th>
+                  <th>Produk</th>
+                  <th>Tanggal</th>
+                  <th className="text-right">Aksi</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100 bg-white dark:divide-gray-800 dark:bg-[#1A120B]">
+              <tbody>
                 {categories.map((cat) => (
-                  <tr key={cat.id} className="transition-colors hover:bg-gray-50/50 dark:hover:bg-gray-800/50">
-                    <td className="px-5 py-4 text-sm font-semibold text-[#3E2723] dark:text-[#F5EDE0]">{cat.name}</td>
-                    <td className="px-5 py-4 text-sm text-gray-500 dark:text-gray-400">{cat.slug}</td>
-                    <td className="px-5 py-4">
+                  <tr key={cat.id}>
+                    <td className="font-medium text-zinc-900 dark:text-zinc-100">{cat.name}</td>
+                    <td className="text-zinc-500 dark:text-zinc-400">{cat.slug}</td>
+                    <td>
                       <Badge variant="gold">{cat._count.products}</Badge>
                     </td>
-                    <td className="px-5 py-4 text-sm text-gray-500 dark:text-gray-400">{formatDate(cat.createdAt)}</td>
-                    <td className="px-5 py-4 text-right text-sm">
-                      <button
-                        onClick={() => { setEditing(cat); setName(cat.name); setEditOpen(true); }}
-                        className="rounded-lg px-3 py-1.5 font-semibold text-[#8B6914] transition-colors hover:bg-[#8B6914]/10"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        onClick={() => { setDeleting(cat); setDeleteOpen(true); }}
-                        className="rounded-lg px-3 py-1.5 font-semibold text-red-500 transition-colors hover:bg-red-50 dark:hover:bg-red-900/20"
-                      >
-                        Hapus
-                      </button>
+                    <td className="text-zinc-500 dark:text-zinc-400">{formatDate(cat.createdAt)}</td>
+                    <td className="text-right">
+                      <div className="flex items-center justify-end gap-1">
+                        <button
+                          onClick={() => { setEditing(cat); setName(cat.name); setEditOpen(true); }}
+                          className="rounded-md px-2.5 py-1 text-xs font-medium text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-700 dark:hover:bg-zinc-800 dark:hover:text-zinc-300"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => { setDeleting(cat); setDeleteOpen(true); }}
+                          className="rounded-md px-2.5 py-1 text-xs font-medium text-zinc-500 transition-colors hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-950/30 dark:hover:text-red-400"
+                        >
+                          Hapus
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -177,17 +179,17 @@ export function CategoryManager({ categories }: CategoryManagerProps) {
       </Modal>
 
       <Modal open={deleteOpen} onClose={() => setDeleteOpen(false)} title="Hapus Kategori">
-        <div className="text-sm text-[#4A3728] dark:text-gray-300 space-y-3">
+        <div className="space-y-3 text-sm text-zinc-600 dark:text-zinc-300">
           <p>Apakah Anda yakin ingin menghapus kategori berikut?</p>
-          <p className="break-words rounded-xl bg-red-50 px-4 py-3 font-semibold text-red-700 dark:bg-red-900/20 dark:text-red-400">
+          <p className="break-words rounded-lg bg-red-50 px-4 py-3 font-medium text-red-700 dark:bg-red-950/30 dark:text-red-400">
             {deleting?.name}
           </p>
           {deleting && deleting._count.products > 0 && (
-            <p className="rounded-xl bg-yellow-50 px-4 py-3 text-xs text-yellow-700 dark:bg-yellow-900/20 dark:text-yellow-400">
+            <p className="rounded-lg bg-amber-50 px-4 py-3 text-xs text-amber-700 dark:bg-amber-950/30 dark:text-amber-400">
               Kategori ini memiliki <strong>{deleting._count.products} produk</strong> yang juga akan terhapus.
             </p>
           )}
-          <p className="text-xs text-gray-400">Tindakan ini tidak dapat dibatalkan.</p>
+          <p className="text-xs text-zinc-400">Tindakan ini tidak dapat dibatalkan.</p>
         </div>
         <div className="mt-6 flex justify-end gap-3">
           <Button variant="outline" onClick={() => setDeleteOpen(false)}>Batal</Button>

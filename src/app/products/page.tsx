@@ -64,7 +64,7 @@ async function ProductList({ searchParams }: ProductsPageProps) {
 
   return (
     <>
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {products.map((product, i) => (
           <ProductCard key={product.id} product={product} index={i} />
         ))}
@@ -90,20 +90,20 @@ export default async function ProductsPage(props: ProductsPageProps) {
 
   return (
     <div className="container-premium py-10 sm:py-14">
-      <div className="mb-10">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#8B6914]">Koleksi</p>
-        <h1 className="mt-1 text-3xl font-bold text-[#3E2723] dark:text-[#F5EDE0] sm:text-4xl">Produk</h1>
-        <p className="mt-2 text-[#4A3728] dark:text-gray-400">Jelajahi koleksi produk premium kami.</p>
+      <div className="mb-8">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-amber-600">Koleksi</p>
+        <h1 className="mt-1 text-3xl font-bold text-zinc-900 dark:text-zinc-100 sm:text-4xl">Produk</h1>
+        <p className="mt-2 text-zinc-500 dark:text-zinc-400">Jelajahi koleksi produk premium kami.</p>
       </div>
 
       <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-1.5">
           <Link
             href="/products"
-            className={`rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-200 ${
+            className={`rounded-lg px-3.5 py-1.5 text-xs font-semibold transition-all duration-150 ${
               !categorySlug
-                ? "bg-[#8B6914] text-[#3E2723] shadow-sm"
-                : "border border-gray-200 text-[#4A3728] hover:border-[#8B6914] hover:text-[#8B6914] dark:border-gray-700 dark:text-gray-400"
+                ? "bg-amber-600 text-white shadow-sm"
+                : "border border-zinc-200 text-zinc-600 hover:border-amber-600 hover:text-amber-600 dark:border-zinc-700 dark:text-zinc-400"
             }`}
           >
             Semua
@@ -112,10 +112,10 @@ export default async function ProductsPage(props: ProductsPageProps) {
             <Link
               key={cat.id}
               href={`/products?category=${cat.slug}`}
-              className={`rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-200 ${
+              className={`rounded-lg px-3.5 py-1.5 text-xs font-semibold transition-all duration-150 ${
                 categorySlug === cat.slug
-                  ? "bg-[#8B6914] text-[#3E2723] shadow-sm"
-                  : "border border-gray-200 text-[#4A3728] hover:border-[#8B6914] hover:text-[#8B6914] dark:border-gray-700 dark:text-gray-400"
+                  ? "bg-amber-600 text-white shadow-sm"
+                  : "border border-zinc-200 text-zinc-600 hover:border-amber-600 hover:text-amber-600 dark:border-zinc-700 dark:text-zinc-400"
               }`}
             >
               {cat.name}
@@ -130,11 +130,11 @@ export default async function ProductsPage(props: ProductsPageProps) {
             name="q"
             defaultValue={q}
             placeholder="Cari produk..."
-            className="w-48 rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-[#3E2723] transition-all duration-200 placeholder:text-gray-400 focus:border-[#8B6914] focus:outline-none focus:ring-2 focus:ring-[#8B6914]/20 dark:border-gray-700 dark:bg-[#2C1810] dark:text-[#F5EDE0]"
+            className="w-48 rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 transition-colors placeholder:text-zinc-400 focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
           />
           <button
             type="submit"
-            className="rounded-xl bg-[#1A120B] px-5 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:bg-gray-800 dark:bg-[#8B6914] dark:text-[#3E2723] dark:hover:bg-[#A0781A]"
+            className="rounded-lg bg-zinc-900 px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
           >
             Cari
           </button>
@@ -143,7 +143,7 @@ export default async function ProductsPage(props: ProductsPageProps) {
 
       <Suspense
         fallback={
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {Array.from({ length: 8 }).map((_, i) => (
               <ProductCardSkeleton key={i} />
             ))}

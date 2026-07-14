@@ -109,8 +109,8 @@ export function CheckoutForm() {
   return (
     <div className="grid gap-10 lg:grid-cols-5">
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 lg:col-span-3">
-        <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-[#2C1810]">
-          <h2 className="mb-5 text-lg font-bold text-[#3E2723] dark:text-[#F5EDE0]">Data Pembeli</h2>
+        <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+          <h2 className="mb-5 text-base font-bold text-zinc-900 dark:text-zinc-100">Data Pembeli</h2>
           <div className="space-y-4">
             <Input
               id="customerName"
@@ -127,29 +127,29 @@ export function CheckoutForm() {
               {...register("phone")}
             />
             <div className="space-y-1.5">
-              <label htmlFor="address" className="block text-sm font-semibold text-[#4A3728] dark:text-gray-300">
+              <label htmlFor="address" className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
                 Alamat Pengiriman
               </label>
               <textarea
                 id="address"
                 rows={3}
                 placeholder="Jl. Contoh No. 123, Kota, Provinsi"
-                className="block w-full rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-[#3E2723] transition-all duration-200 placeholder:text-gray-400 hover:border-gray-300 focus:border-[#8B6914] focus:outline-none focus:ring-2 focus:ring-[#8B6914]/20 dark:border-gray-700 dark:bg-[#2C1810] dark:text-[#F5EDE0]"
+                className="block w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 transition-colors placeholder:text-zinc-400 hover:border-zinc-300 focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100"
                 {...register("address")}
               />
               {errors.address && (
-                <p className="text-sm font-medium text-red-500">{errors.address.message}</p>
+                <p className="text-xs font-medium text-red-500">{errors.address.message}</p>
               )}
             </div>
             <div className="space-y-1.5">
-              <label htmlFor="notes" className="block text-sm font-semibold text-[#4A3728] dark:text-gray-300">
+              <label htmlFor="notes" className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
                 Catatan Tambahan (opsional)
               </label>
               <textarea
                 id="notes"
                 rows={2}
                 placeholder="Mohon dikirim secepatnya."
-                className="block w-full rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-[#3E2723] transition-all duration-200 placeholder:text-gray-400 hover:border-gray-300 focus:border-[#8B6914] focus:outline-none focus:ring-2 focus:ring-[#8B6914]/20 dark:border-gray-700 dark:bg-[#2C1810] dark:text-[#F5EDE0]"
+                className="block w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 transition-colors placeholder:text-zinc-400 hover:border-zinc-300 focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/20 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100"
                 {...register("notes")}
               />
             </div>
@@ -159,7 +159,7 @@ export function CheckoutForm() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full rounded-xl bg-[#8B6914] px-8 py-3.5 text-sm font-bold text-[#3E2723] shadow-lg shadow-[#8B6914]/25 transition-all duration-200 hover:bg-[#A0781A] active:scale-[0.98] disabled:opacity-50"
+          className="w-full rounded-xl bg-amber-600 px-8 py-3.5 text-sm font-semibold text-white shadow-md shadow-amber-600/20 transition-all duration-200 hover:bg-amber-700 hover:shadow-lg active:scale-[0.98] disabled:opacity-50"
         >
           {isSubmitting ? (
             <span className="inline-flex items-center gap-2">
@@ -181,36 +181,36 @@ export function CheckoutForm() {
       </form>
 
       <div className="lg:col-span-2">
-        <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-[#2C1810]">
-          <h3 className="text-lg font-bold text-[#3E2723] dark:text-[#F5EDE0]">Ringkasan Pesanan</h3>
-          <div className="mt-5 space-y-4">
+        <div className="h-fit rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+          <h3 className="text-base font-bold text-zinc-900 dark:text-zinc-100">Ringkasan Pesanan</h3>
+          <div className="mt-4 space-y-3">
             {items.map((item) => (
               <div key={item.id} className="flex gap-3">
-                <div className="relative h-14 w-14 flex-shrink-0 overflow-hidden rounded-xl bg-gray-100 dark:bg-gray-800">
+                <div className="relative h-12 w-12 flex-shrink-0 overflow-hidden rounded-lg bg-zinc-100 dark:bg-zinc-800">
                   <Image
                     src={item.imageUrl}
                     alt={item.name}
                     fill
                     className="object-cover"
-                    sizes="56px"
+                    sizes="48px"
                   />
                 </div>
                 <div className="flex flex-1 items-center justify-between">
                   <div>
-                    <p className="text-sm font-semibold text-[#3E2723] dark:text-[#F5EDE0]">{item.name}</p>
-                    <p className="text-xs text-gray-400">x{item.quantity}</p>
+                    <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">{item.name}</p>
+                    <p className="text-xs text-zinc-400">x{item.quantity}</p>
                   </div>
-                  <span className="text-sm font-semibold text-[#3E2723] dark:text-[#F5EDE0]">
+                  <span className="text-sm font-semibold tabular-nums text-zinc-900 dark:text-zinc-100">
                     {formatPrice(item.price * item.quantity)}
                   </span>
                 </div>
               </div>
             ))}
           </div>
-          <div className="mt-5 border-t border-gray-100 pt-5 dark:border-gray-800">
+          <div className="mt-5 border-t border-zinc-100 pt-5 dark:border-zinc-800">
             <div className="flex justify-between">
-              <span className="font-bold text-[#3E2723] dark:text-[#F5EDE0]">Total</span>
-              <span className="text-xl font-bold text-[#8B6914]">{formatPrice(subtotal)}</span>
+              <span className="font-bold text-zinc-900 dark:text-zinc-100">Total</span>
+              <span className="text-xl font-bold tabular-nums text-amber-600">{formatPrice(subtotal)}</span>
             </div>
           </div>
         </div>

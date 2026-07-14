@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/auth";
 import { formatPrice, formatDate } from "@/lib/utils";
 import { EmptyState } from "@/components/public/EmptyState";
+import { PageHeader } from "@/components/admin/PageHeader";
 import { DeleteButton } from "./DeleteButton";
 import { AddProductModal } from "./AddProductModal";
 import { EditProductModal } from "./EditProductModal";
@@ -22,13 +23,11 @@ export default async function AdminProductsPage() {
 
   return (
     <div>
-      <div className="mb-6 flex items-center justify-between">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#8B6914]">Admin</p>
-          <h1 className="mt-1 text-2xl font-bold text-[#3E2723] dark:text-[#F5EDE0]">Produk</h1>
-        </div>
-        <AddProductModal />
-      </div>
+      <PageHeader
+        title="Produk"
+        description={`${products.length} produk terdaftar`}
+        actions={<AddProductModal />}
+      />
 
       {products.length === 0 ? (
         <EmptyState
@@ -36,57 +35,55 @@ export default async function AdminProductsPage() {
           description="Klik tombol Tambah Produk untuk memulai."
         />
       ) : (
-        <div className="overflow-hidden rounded-2xl border border-gray-100 dark:border-gray-800">
+        <div className="card-admin overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-100 dark:divide-gray-800">
-              <thead className="bg-gray-50 dark:bg-[#2C1810]">
+            <table className="table-admin">
+              <thead>
                 <tr>
-                  <th className="px-5 py-4 text-left text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">Produk</th>
-                  <th className="px-5 py-4 text-left text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">Kategori</th>
-                  <th className="px-5 py-4 text-left text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">Harga</th>
-                  <th className="px-5 py-4 text-left text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">Stok</th>
-                  <th className="px-5 py-4 text-left text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">Tanggal</th>
-                  <th className="px-5 py-4 text-right text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">Aksi</th>
+                  <th>Produk</th>
+                  <th>Kategori</th>
+                  <th>Harga</th>
+                  <th>Stok</th>
+                  <th>Tanggal</th>
+                  <th className="text-right">Aksi</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100 bg-white dark:divide-gray-800 dark:bg-[#1A120B]">
+              <tbody>
                 {products.map((product) => (
-                  <tr key={product.id} className="transition-colors hover:bg-gray-50/50 dark:hover:bg-gray-800/50">
-                    <td className="whitespace-nowrap px-5 py-4">
+                  <tr key={product.id}>
+                    <td>
                       <div className="flex items-center gap-3">
-                        <div className="relative h-11 w-11 flex-shrink-0 overflow-hidden rounded-xl bg-gray-100 dark:bg-gray-800">
+                        <div className="relative h-10 w-10 flex-shrink-0 overflow-hidden rounded-lg bg-zinc-100 dark:bg-zinc-800">
                           <Image
                             src={product.imageUrl}
                             alt={product.name}
                             fill
                             className="object-cover"
-                            sizes="44px"
+                            sizes="40px"
                           />
                         </div>
-                        <span className="font-semibold text-[#3E2723] dark:text-[#F5EDE0]">{product.name}</span>
+                        <span className="font-medium text-zinc-900 dark:text-zinc-100">{product.name}</span>
                       </div>
                     </td>
-                    <td className="whitespace-nowrap px-5 py-4 text-sm text-gray-500 dark:text-gray-400">
-                      {product.category.name}
-                    </td>
-                    <td className="whitespace-nowrap px-5 py-4 text-sm font-semibold text-[#8B6914]">
-                      {formatPrice(product.price)}
-                    </td>
-                    <td className="whitespace-nowrap px-5 py-4">
-                      <span className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold ${
+                    <td className="text-zinc-500 dark:text-zinc-400">{product.category.name}</td>
+                    <td className="font-semibold tabular-nums text-amber-600">{formatPrice(product.price)}</td>
+                    <td>
+                      <span className={`inline-flex rounded-md px-2 py-0.5 text-xs font-medium ${
                         product.stock > 0
-                          ? "bg-green-50 text-green-600 dark:bg-green-900/20 dark:text-green-400"
-                          : "bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-400"
+                          ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400"
+                          : "bg-red-50 text-red-700 dark:bg-red-950/30 dark:text-red-400"
                       }`}>
                         {product.stock}
                       </span>
                     </td>
-                    <td className="whitespace-nowrap px-5 py-4 text-sm text-gray-500 dark:text-gray-400">
+                    <td className="text-zinc-500 dark:text-zinc-400">
                       {formatDate(product.createdAt)}
                     </td>
-                    <td className="whitespace-nowrap px-5 py-4 text-right">
-                      <EditProductModal productId={product.id} productName={product.name} />
-                      <DeleteButton productId={product.id} productName={product.name} />
+                    <td className="text-right">
+                      <div className="flex items-center justify-end gap-1">
+                        <EditProductModal productId={product.id} productName={product.name} />
+                        <DeleteButton productId={product.id} productName={product.name} />
+                      </div>
                     </td>
                   </tr>
                 ))}

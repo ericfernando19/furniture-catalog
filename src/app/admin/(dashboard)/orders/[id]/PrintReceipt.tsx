@@ -111,7 +111,7 @@ export function PrintReceipt({ order }: PrintReceiptProps) {
         `);
         w.document.close();
       }}
-      className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#8B6914] px-4 py-2.5 text-sm font-bold text-[#FFF8F0] transition-all hover:bg-[#A0781A]"
+      className="flex w-full items-center justify-center gap-2 rounded-xl bg-amber-600 px-4 py-2.5 text-sm font-bold text-white transition-all hover:bg-amber-700"
     >
       🖨 Cetak Struk
     </button>

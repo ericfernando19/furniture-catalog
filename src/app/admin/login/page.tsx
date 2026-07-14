@@ -7,13 +7,16 @@ export const metadata: Metadata = {
 
 export default function LoginPage() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#FFF8F0] dark:bg-[#1A120B]">
-      <div className="w-full max-w-sm rounded-2xl border border-gray-100 bg-white p-8 shadow-lg dark:border-gray-800 dark:bg-[#2C1810]">
+    <div className="flex min-h-screen items-center justify-center bg-zinc-50 dark:bg-zinc-900">
+      <div className="w-full max-w-sm rounded-xl border border-zinc-200 bg-white p-8 shadow-sm dark:border-zinc-700 dark:bg-zinc-800">
         <div className="mb-8 text-center">
-          <h1 className="text-2xl font-bold text-[#3E2723] dark:text-[#F5EDE0]">
-            Admin<span className="text-[#8B6914]">Panel</span>
+          <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-amber-600">
+            <span className="text-base font-bold text-white">K</span>
+          </div>
+          <h1 className="text-lg font-bold text-zinc-900 dark:text-zinc-100">
+            Katalog Toko
           </h1>
-          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">Masuk ke dashboard admin</p>
+          <p className="mt-1 text-sm text-zinc-400">Masuk ke dashboard admin</p>
         </div>
         <LoginForm />
       </div>

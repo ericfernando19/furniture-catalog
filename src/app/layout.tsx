@@ -1,15 +1,23 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Plus_Jakarta_Sans, DM_Serif_Display } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/contexts/CartContext";
 import { PublicLayout } from "@/components/PublicLayout";
 import { ToastProvider } from "@/components/ToastProvider";
 import { ThemeProvider } from "@/components/ThemeProvider";
 
-const inter = Inter({
+const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-inter",
+  variable: "--font-jakarta",
+  weight: ["400", "500", "600", "700", "800"],
+});
+
+const dmSerif = DM_Serif_Display({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-display",
+  weight: ["400"],
 });
 
 export const metadata: Metadata = {
@@ -29,10 +37,10 @@ export default function RootLayout({
   return (
     <html
       lang="id"
-      className={`${inter.variable} h-full antialiased`}
+      className={`${jakarta.variable} ${dmSerif.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <body className="flex min-h-full flex-col bg-[#FFF8F0] text-[#3E2723] dark:bg-[#1A120B] dark:text-[#F5EDE0]">
+      <body className="flex min-h-full flex-col bg-zinc-50 text-zinc-900 dark:bg-[#09090B] dark:text-zinc-50">
         <ThemeProvider>
           <CartProvider>
             <PublicLayout>{children}</PublicLayout>

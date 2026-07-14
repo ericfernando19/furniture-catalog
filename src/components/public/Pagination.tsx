@@ -34,27 +34,27 @@ export function Pagination({ currentPage, totalPages, basePath, searchParams }: 
   }
 
   return (
-    <nav className="mt-10 flex items-center justify-center gap-1.5">
+    <nav className="mt-10 flex items-center justify-center gap-1">
       {currentPage > 1 && (
         <Link
           href={buildUrl(currentPage - 1)}
-          className="rounded-xl px-4 py-2 text-sm font-medium text-[#4A3728] transition-colors hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800"
+          className="rounded-lg px-3 py-1.5 text-sm font-medium text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-700 dark:text-zinc-400 dark:hover:bg-zinc-800"
         >
           Prev
         </Link>
       )}
       {pages.map((page, i) =>
         page === "..." ? (
-          <span key={`dots-${i}`} className="px-2 text-gray-300 dark:text-gray-600">...</span>
+          <span key={`dots-${i}`} className="px-2 text-zinc-300 dark:text-zinc-600">...</span>
         ) : (
           <Link
             key={page}
             href={buildUrl(page)}
             className={cn(
-              "rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-200",
+              "rounded-lg px-3 py-1.5 text-sm font-semibold transition-all duration-150",
               page === currentPage
-                ? "bg-[#8B6914] text-[#3E2723] shadow-md shadow-[#8B6914]/20"
-                : "text-[#4A3728] hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800"
+                ? "bg-amber-600 text-white shadow-sm shadow-amber-600/20"
+                : "text-zinc-600 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
             )}
           >
             {page}
@@ -64,10 +64,10 @@ export function Pagination({ currentPage, totalPages, basePath, searchParams }: 
       {currentPage < totalPages && (
         <Link
           href={buildUrl(currentPage + 1)}
-            className="rounded-xl px-4 py-2 text-sm font-medium text-[#4A3728] transition-colors hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800"
-          >
-            Next
-          </Link>
+          className="rounded-lg px-3 py-1.5 text-sm font-medium text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-700 dark:text-zinc-400 dark:hover:bg-zinc-800"
+        >
+          Next
+        </Link>
       )}
     </nav>
   );

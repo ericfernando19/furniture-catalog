@@ -3,27 +3,9 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme inline {
-  --color-wood: #8B6914;
-  --color-wood-light: #D2B48C;
-  --color-wood-dark: #6B4F10;
-  --color-wood-hover: #A0781A;
-  --color-leaf: #2D5A27;
-  --color-cream: #FFF8F0;
-  --color-cream-dark: #F5EDE0;
-
-  --color-surface: #FFFFFF;
-  --color-surface-muted: #FFF8F0;
-  --color-muted: #8B7355;
-  --color-text: #4A3728;
-  --color-text-heading: #3E2723;
-  --color-border: #E8DCC8;
-
-  --color-dark-bg: #1A120B;
-  --color-dark-surface: #2C1810;
-  --color-dark-text: #F5EDE0;
-
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Plus Jakarta Sans", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "DM Serif Display", Georgia, "Times New Roman", serif;
+  --font-mono: "JetBrains Mono", "Geist Mono", ui-monospace, monospace;
 }
 
 @layer base {
@@ -32,8 +14,7 @@
   }
 
   body {
-    background-color: var(--color-surface-muted);
-    color: var(--color-text);
+    @apply bg-stone-50 text-zinc-900 antialiased;
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -41,58 +22,160 @@
 
   .dark body,
   body.dark {
-    background-color: var(--color-dark-bg);
-    color: var(--color-dark-text);
+    @apply bg-zinc-950 text-zinc-100;
   }
 
   ::selection {
-    background-color: #8B6914;
-    color: #FFF8F0;
+    @apply bg-amber-600 text-amber-50;
   }
 
   .dark ::selection {
-    background-color: #D2B48C;
-    color: #1A120B;
+    @apply bg-amber-500 text-zinc-900;
   }
 }
 
-@layer components {
+@layer utilities {
   .container-premium {
-    @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+    @apply mx-auto max-w-7xl px-5 sm:px-8;
   }
 
-  .card-premium {
-    @apply rounded-2xl border border-[#E8DCC8] bg-white shadow-sm transition-all duration-300;
-  }
-
-  .dark .card-premium {
-    @apply border-[#3E2723] bg-dark-surface shadow-lg shadow-black/20;
-  }
-
-  .text-gradient-wood {
-    background: linear-gradient(135deg, #8B6914, #D2B48C, #8B6914);
+  .text-gradient-amber {
+    background: linear-gradient(135deg, #D97706, #B45309);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
-  .wood-border {
-    border-color: #8B6914;
+  .section-divider {
+    height: 3px;
+    background: linear-gradient(90deg, transparent 0%, #D97706 20%, #B45309 50%, #78350F 80%, transparent 100%);
+    border-radius: 999px;
   }
 
-  .hover-wood {
-    transition: all 0.3s ease;
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@layer components {
+  .card-admin {
+    @apply rounded-xl border border-zinc-200 bg-white;
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.03);
   }
 
-  .hover-wood:hover {
-    color: #8B6914;
+  .dark .card-admin {
+    @apply border-zinc-800 bg-zinc-900;
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.2);
   }
 
-  .skeleton-pulse {
-    @apply animate-pulse rounded-lg bg-[#E8DCC8];
+  .card-admin-hover {
+    @apply rounded-xl border border-zinc-200 bg-white transition-all duration-200;
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.03);
   }
 
-  .dark .skeleton-pulse {
-    @apply bg-[#3E2723];
+  .card-admin-hover:hover {
+    box-shadow: 0 4px 12px -2px rgb(0 0 0 / 0.08);
+    @apply border-zinc-300;
+  }
+
+  .dark .card-admin-hover:hover {
+    box-shadow: 0 4px 12px -2px rgb(0 0 0 / 0.4);
+    @apply border-zinc-700;
+  }
+
+  .table-admin {
+    @apply w-full text-sm;
+  }
+
+  .table-admin thead {
+    @apply border-b border-zinc-200;
+  }
+
+  .dark .table-admin thead {
+    @apply border-zinc-800;
+  }
+
+  .table-admin th {
+    @apply px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-zinc-400;
+  }
+
+  .dark .table-admin th {
+    @apply text-zinc-500;
+  }
+
+  .table-admin td {
+    @apply px-4 py-3;
+  }
+
+  .table-admin tbody tr {
+    @apply border-b border-zinc-100 transition-colors;
+  }
+
+  .table-admin tbody tr:nth-child(even) {
+    @apply bg-zinc-50/50;
+  }
+
+  .table-admin tbody tr:hover {
+    @apply bg-zinc-50;
+  }
+
+  .dark .table-admin tbody tr {
+    @apply border-zinc-800/50;
+  }
+
+  .dark .table-admin tbody tr:nth-child(even) {
+    @apply bg-zinc-900/50;
+  }
+
+  .dark .table-admin tbody tr:hover {
+    @apply bg-zinc-800/50;
+  }
+
+  .table-admin tbody tr:last-child {
+    @apply border-b-0;
+  }
+
+  .sidebar-link {
+    @apply flex items-center gap-3 rounded-lg px-3 py-2 text-[13px] font-medium transition-all duration-150;
+  }
+
+  .sidebar-link-active {
+    @apply bg-amber-500/10 text-amber-500;
+  }
+
+  .dark .sidebar-link-active {
+    @apply bg-amber-500/15 text-amber-400;
+  }
+
+  .sidebar-link-inactive {
+    @apply text-zinc-400;
+  }
+
+  .sidebar-link-inactive:hover {
+    @apply bg-zinc-800 text-zinc-200;
+  }
+
+  .btn-icon {
+    @apply inline-flex h-8 w-8 items-center justify-center rounded-lg text-zinc-400 transition-colors;
+  }
+
+  .btn-icon:hover {
+    @apply bg-zinc-100 text-zinc-600;
+  }
+
+  .dark .btn-icon:hover {
+    @apply bg-zinc-800 text-zinc-300;
+  }
+
+  .kpi-trend-up {
+    @apply inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-600;
+  }
+
+  .kpi-trend-down {
+    @apply inline-flex items-center gap-1 text-[11px] font-semibold text-red-500;
+  }
+
+  .kpi-trend-neutral {
+    @apply inline-flex items-center gap-1 text-[11px] font-medium text-zinc-400;
   }
 }

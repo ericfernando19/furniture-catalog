@@ -18,7 +18,7 @@ async function LatestProducts() {
   }
 
   return (
-    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+    <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
       {products.map((product, i) => (
         <ProductCard key={product.id} product={product} index={i} />
       ))}
@@ -36,7 +36,7 @@ async function FeaturedProducts() {
   if (products.length === 0) return null;
 
   return (
-    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+    <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
       {products.map((product, i) => (
         <ProductCard key={product.id} product={product} index={i} />
       ))}
@@ -49,23 +49,25 @@ export default function HomePage() {
     <>
       <HeroSection />
 
-      <section className="container-premium py-20">
-        <div className="mb-10 flex items-end justify-between">
+      <div className="section-divider mx-auto max-w-4xl" />
+
+      <section className="container-premium py-14 sm:py-16">
+        <div className="mb-8 flex items-end justify-between">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#8B6914]">Terbaru</p>
-            <h2 className="mt-1 text-2xl font-bold text-[#3E2723] dark:text-[#F5EDE0] sm:text-3xl">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-amber-600">Terbaru</p>
+            <h2 className="mt-1 text-2xl font-bold text-zinc-900 dark:text-zinc-100 sm:text-3xl">
               Furniture Terbaru
             </h2>
           </div>
           <Link
             href="/products"
-            className="hidden sm:inline-flex items-center gap-1 text-sm font-semibold text-[#4A3728] transition-colors hover:text-[#8B6914] dark:text-gray-300"
+            className="hidden text-sm font-semibold text-zinc-500 transition-colors hover:text-amber-600 sm:inline-flex sm:items-center sm:gap-1"
           >
             Lihat Semua &rarr;
           </Link>
         </div>
         <Suspense fallback={
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {Array.from({ length: 4 }).map((_, i) => (
               <ProductCardSkeleton key={i} />
             ))}
@@ -76,31 +78,31 @@ export default function HomePage() {
         <div className="mt-6 text-center sm:hidden">
           <Link
             href="/products"
-            className="inline-flex items-center gap-1 rounded-xl border border-gray-200 px-6 py-2.5 text-sm font-semibold text-[#4A3728] transition-colors hover:border-[#8B6914] hover:text-[#8B6914] dark:border-gray-700 dark:text-gray-300"
+            className="inline-flex items-center gap-1 rounded-lg border border-zinc-200 px-5 py-2 text-sm font-semibold text-zinc-600 transition-colors hover:border-amber-600 hover:text-amber-600 dark:border-zinc-700 dark:text-zinc-400"
           >
             Lihat Semua &rarr;
           </Link>
         </div>
       </section>
 
-      <section className="bg-gray-50 dark:bg-[#1A120B]/50">
-        <div className="container-premium py-20">
-          <div className="mb-10 flex items-end justify-between">
+      <section className="bg-zinc-100/50 dark:bg-zinc-900/50">
+        <div className="container-premium py-14 sm:py-16">
+          <div className="mb-8 flex items-end justify-between">
             <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#8B6914]">Pilihan</p>
-            <h2 className="mt-1 text-2xl font-bold text-[#3E2723] dark:text-[#F5EDE0] sm:text-3xl">
-              Furniture Unggulan
-            </h2>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-amber-600">Pilihan</p>
+              <h2 className="mt-1 text-2xl font-bold text-zinc-900 dark:text-zinc-100 sm:text-3xl">
+                Furniture Unggulan
+              </h2>
             </div>
             <Link
               href="/products"
-              className="hidden sm:inline-flex items-center gap-1 text-sm font-semibold text-[#4A3728] transition-colors hover:text-[#8B6914] dark:text-gray-300"
+              className="hidden text-sm font-semibold text-zinc-500 transition-colors hover:text-amber-600 sm:inline-flex sm:items-center sm:gap-1"
             >
               Lihat Semua &rarr;
             </Link>
           </div>
           <Suspense fallback={
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
               {Array.from({ length: 4 }).map((_, i) => (
                 <ProductCardSkeleton key={i} />
               ))}
@@ -111,21 +113,21 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="container-premium py-20 text-center">
+      <section className="container-premium py-16 text-center sm:py-20">
         <div className="mx-auto max-w-lg">
-          <h2 className="text-2xl font-bold text-[#3E2723] dark:text-[#F5EDE0] sm:text-3xl">
+          <h2 className="text-2xl font-bold text-zinc-900 dark:text-zinc-100 sm:text-3xl">
             Siap Furnitur Rumah Anda?
           </h2>
-          <p className="mt-3 text-[#4A3728] dark:text-gray-400">
+          <p className="mt-3 text-zinc-500 dark:text-zinc-400">
             Jelajahi koleksi furniture kayu jati kami dan temukan yang sempurna untuk rumah Anda.
           </p>
           <Link
             href="/products"
-            className="mt-8 inline-flex items-center gap-2 rounded-xl bg-[#8B6914] px-8 py-3.5 text-sm font-bold text-[#FFF8F0] shadow-lg shadow-[#8B6914]/25 transition-all duration-200 hover:bg-[#A0781A] active:scale-[0.98]"
+            className="mt-8 inline-flex items-center gap-2 rounded-xl bg-amber-600 px-7 py-3 text-sm font-semibold text-white shadow-md shadow-amber-600/20 transition-all duration-200 hover:bg-amber-700 active:scale-[0.98]"
           >
             Jelajahi Koleksi
-            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
           </Link>
         </div>

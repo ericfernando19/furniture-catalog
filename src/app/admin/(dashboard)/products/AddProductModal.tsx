@@ -20,9 +20,12 @@ export function AddProductModal() {
     <>
       <button
         onClick={() => setOpen(true)}
-        className="rounded-xl bg-[#8B6914] px-5 py-2.5 text-sm font-bold text-[#FFF8F0] shadow-sm transition-all duration-200 hover:bg-[#A0781A]"
+        className="inline-flex items-center gap-2 rounded-lg bg-amber-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all hover:bg-amber-700 active:scale-[0.98]"
       >
-        + Tambah Produk
+        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+        </svg>
+        Tambah Produk
       </button>
       <Modal open={open} onClose={() => setOpen(false)} title="Tambah Produk Baru" className="max-w-xl">
         <ProductForm categories={categories} onSuccess={() => setOpen(false)} inModal />

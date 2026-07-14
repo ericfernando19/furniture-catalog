@@ -32,20 +32,20 @@ export function AddToCartButton({ product }: AddToCartButtonProps) {
   return (
     <div className="mt-8 space-y-5">
       <div className="flex items-center gap-4">
-        <span className="text-sm font-semibold text-[#4A3728] dark:text-gray-300">Jumlah:</span>
-        <div className="flex items-center rounded-xl border border-gray-200 bg-white dark:border-gray-700 dark:bg-[#2C1810]">
+        <span className="text-sm font-semibold text-zinc-600 dark:text-zinc-400">Jumlah:</span>
+        <div className="flex items-center rounded-lg border border-zinc-200 bg-white dark:border-zinc-700 dark:bg-zinc-800">
           <button
             type="button"
             onClick={() => setQuantity(Math.max(1, quantity - 1))}
-            className="px-3.5 py-2 text-[#4A3728] transition-colors hover:text-[#8B6914] dark:text-gray-300"
+            className="px-3 py-2 text-zinc-500 transition-colors hover:text-amber-600 dark:text-zinc-400"
           >
             -
           </button>
-          <span className="min-w-[3rem] text-center text-sm font-semibold text-[#3E2723] dark:text-[#F5EDE0]">{quantity}</span>
+          <span className="min-w-[3rem] text-center text-sm font-semibold text-zinc-900 dark:text-zinc-100">{quantity}</span>
           <button
             type="button"
             onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
-            className="px-3.5 py-2 text-[#4A3728] transition-colors hover:text-[#8B6914] dark:text-gray-300"
+            className="px-3 py-2 text-zinc-500 transition-colors hover:text-amber-600 dark:text-zinc-400"
           >
             +
           </button>
@@ -54,10 +54,10 @@ export function AddToCartButton({ product }: AddToCartButtonProps) {
 
       <button
         onClick={handleAdd}
-        className="inline-flex items-center gap-2 rounded-xl bg-[#8B6914] px-8 py-3.5 text-sm font-bold text-[#3E2723] shadow-lg shadow-[#8B6914]/25 transition-all duration-200 hover:bg-[#A0781A] active:scale-[0.98]"
+        className="inline-flex items-center gap-2 rounded-xl bg-amber-600 px-7 py-3 text-sm font-semibold text-white shadow-md shadow-amber-600/20 transition-all duration-200 hover:bg-amber-700 hover:shadow-lg hover:shadow-amber-600/25 active:scale-[0.98]"
       >
-        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z" />
+        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
         </svg>
         Tambah ke Keranjang
       </button>

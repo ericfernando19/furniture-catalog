@@ -31,14 +31,14 @@ export function Navbar() {
       className={cn(
         "sticky top-0 z-40 transition-all duration-300",
         scrolled
-          ? "bg-white/90 shadow-sm backdrop-blur-xl dark:bg-[#1A120B]/90 dark:shadow-black/10"
+          ? "border-b border-zinc-200/60 bg-white/80 shadow-sm backdrop-blur-xl dark:border-zinc-800/60 dark:bg-zinc-950/80"
           : "bg-transparent"
       )}
     >
-      <nav className="container-premium flex h-18 items-center justify-between">
+      <nav className="container-premium flex h-16 items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
-          <span className="text-xl font-bold tracking-tight text-[#3E2723] dark:text-[#F5EDE0]">
-            My<span className="text-[#8B6914]">Furni</span>
+          <span className="text-lg font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+            My<span className="text-amber-600">Furni</span>
           </span>
         </Link>
 
@@ -47,36 +47,36 @@ export function Navbar() {
             <Link
               key={link.href}
               href={link.href}
-              className="relative text-sm font-medium text-[#4A3728] transition-colors hover:text-[#8B6914] dark:text-gray-300 dark:hover:text-[#8B6914]"
+              className="relative text-sm font-medium text-zinc-500 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
             >
               {link.label}
             </Link>
           ))}
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           <button
             onClick={toggleTheme}
-            className="rounded-xl p-2 text-[#4A3728] transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
+            className="rounded-lg p-2 text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-700 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-200"
             aria-label="Toggle theme"
           >
             {theme === "light" ? (
-              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+              <svg className="h-[18px] w-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
               </svg>
             ) : (
-              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+              <svg className="h-[18px] w-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
               </svg>
             )}
           </button>
 
           <Link
             href="/cart"
-            className="relative rounded-xl p-2 text-[#4A3728] transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
+            className="relative rounded-lg p-2 text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-700 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-200"
           >
-            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z" />
+            <svg className="h-[18px] w-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
             </svg>
             <AnimatePresence>
               {totalItems > 0 && (
@@ -84,7 +84,7 @@ export function Navbar() {
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   exit={{ scale: 0 }}
-                  className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-[#8B6914] text-[10px] font-bold text-[#3E2723]"
+                  className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-amber-600 text-[9px] font-bold text-white"
                 >
                   {totalItems > 9 ? "9+" : totalItems}
                 </motion.span>
@@ -94,11 +94,11 @@ export function Navbar() {
 
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="rounded-xl p-2 text-[#4A3728] transition-colors hover:bg-gray-100 sm:hidden dark:text-gray-300 dark:hover:bg-gray-800"
+            className="rounded-lg p-2 text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-700 sm:hidden dark:text-zinc-400 dark:hover:bg-zinc-800"
             aria-label="Toggle menu"
           >
-            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={menuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
+            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d={menuOpen ? "M6 18L18 6M6 6l12 12" : "M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"} />
             </svg>
           </button>
         </div>
@@ -111,14 +111,14 @@ export function Navbar() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.2 }}
-            className="overflow-hidden border-t border-gray-100 bg-white dark:border-gray-800 dark:bg-[#1A120B]"
+            className="overflow-hidden border-t border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950 sm:hidden"
           >
             <div className="container-premium space-y-1 py-4">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="block rounded-xl px-4 py-3 text-sm font-medium text-[#4A3728] transition-colors hover:bg-gray-50 hover:text-[#8B6914] dark:text-gray-300 dark:hover:bg-gray-800"
+                  className="block rounded-lg px-3 py-2.5 text-sm font-medium text-zinc-600 transition-colors hover:bg-zinc-50 hover:text-amber-600 dark:text-zinc-400 dark:hover:bg-zinc-900"
                   onClick={() => setMenuOpen(false)}
                 >
                   {link.label}
@@ -126,12 +126,12 @@ export function Navbar() {
               ))}
               <Link
                 href="/cart"
-                className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-[#4A3728] transition-colors hover:bg-gray-50 hover:text-[#8B6914] dark:text-gray-300 dark:hover:bg-gray-800"
+                className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-zinc-600 transition-colors hover:bg-zinc-50 hover:text-amber-600 dark:text-zinc-400 dark:hover:bg-zinc-900"
                 onClick={() => setMenuOpen(false)}
               >
                 Keranjang
                 {totalItems > 0 && (
-                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#8B6914] text-[10px] font-bold text-[#3E2723]">
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-amber-600 text-[10px] font-bold text-white">
                     {totalItems}
                   </span>
                 )}

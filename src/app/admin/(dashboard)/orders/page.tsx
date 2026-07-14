@@ -5,6 +5,8 @@ import { requireAdmin } from "@/lib/auth";
 import { formatPrice, formatDate } from "@/lib/utils";
 import { EmptyState } from "@/components/public/EmptyState";
 import { Badge } from "@/components/admin/Badge";
+import { PageHeader } from "@/components/admin/PageHeader";
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Pesanan",
@@ -40,19 +42,17 @@ export default async function AdminOrdersPage({ searchParams }: OrdersPageProps)
 
   return (
     <div>
-      <div className="mb-6">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#8B6914]">Admin</p>
-        <h1 className="mt-1 text-2xl font-bold text-[#3E2723] dark:text-[#F5EDE0]">Pesanan</h1>
-      </div>
+      <PageHeader title="Pesanan" description={`${orders.length} pesanan`} />
 
-      <div className="mb-6 flex flex-wrap gap-2">
+      <div className="mb-6 flex flex-wrap gap-1.5">
         <Link
           href="/admin/orders"
-          className={`rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-200 ${
+          className={cn(
+            "rounded-lg px-3.5 py-1.5 text-xs font-medium transition-colors",
             !statusFilter
-              ? "bg-[#8B6914] text-[#3E2723] shadow-sm"
-              : "border border-gray-200 text-[#4A3728] hover:border-[#8B6914] hover:text-[#8B6914] dark:border-gray-700 dark:text-gray-400"
-          }`}
+              ? "bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900"
+              : "text-zinc-500 hover:bg-zinc-100 hover:text-zinc-700 dark:hover:bg-zinc-800 dark:hover:text-zinc-300"
+          )}
         >
           Semua
         </Link>
@@ -60,11 +60,12 @@ export default async function AdminOrdersPage({ searchParams }: OrdersPageProps)
           <Link
             key={s}
             href={`/admin/orders?status=${s}`}
-            className={`rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-200 ${
+            className={cn(
+              "rounded-lg px-3.5 py-1.5 text-xs font-medium transition-colors",
               statusFilter === s
-                ? "bg-[#8B6914] text-[#3E2723] shadow-sm"
-                : "border border-gray-200 text-[#4A3728] hover:border-[#8B6914] hover:text-[#8B6914] dark:border-gray-700 dark:text-gray-400"
-            }`}
+                ? "bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900"
+                : "text-zinc-500 hover:bg-zinc-100 hover:text-zinc-700 dark:hover:bg-zinc-800 dark:hover:text-zinc-300"
+            )}
           >
             {s}
           </Link>
@@ -74,32 +75,32 @@ export default async function AdminOrdersPage({ searchParams }: OrdersPageProps)
       {orders.length === 0 ? (
         <EmptyState title="Belum ada pesanan" description="Belum ada pesanan masuk." />
       ) : (
-        <div className="space-y-4">
+        <div className="space-y-3">
           {orders.map((order) => (
             <Link
               key={order.id}
               href={`/admin/orders/${order.id}`}
-              className="block rounded-2xl border border-gray-100 bg-white p-6 shadow-sm transition-all duration-200 hover:shadow-md dark:border-gray-800 dark:bg-[#2C1810]"
+              className="card-admin block p-5 transition-shadow hover:shadow-md"
             >
-              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                  <p className="font-semibold text-[#3E2723] dark:text-[#F5EDE0]">{order.customerName}</p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">{order.phone}</p>
-                  <p className="mt-1 text-sm text-gray-400 dark:text-gray-500">{formatDate(order.createdAt)}</p>
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div className="min-w-0">
+                  <p className="font-medium text-zinc-900 dark:text-zinc-100">{order.customerName}</p>
+                  <p className="text-sm text-zinc-500 dark:text-zinc-400">{order.phone}</p>
+                  <p className="mt-0.5 text-xs text-zinc-400 dark:text-zinc-500">{formatDate(order.createdAt)}</p>
                 </div>
-                <div className="text-right">
-                  <p className="text-lg font-bold text-[#8B6914]">{formatPrice(order.totalAmount)}</p>
+                <div className="flex items-center gap-4 sm:flex-col sm:items-end sm:gap-1">
+                  <p className="text-base font-bold tabular-nums text-zinc-900 dark:text-zinc-100">
+                    {formatPrice(order.totalAmount)}
+                  </p>
                   {order.shippingCost > 0 && (
-                    <p className="text-xs text-gray-400 dark:text-gray-500">
-                      (+{formatPrice(order.shippingCost)} ongkir)
+                    <p className="text-xs text-zinc-400 dark:text-zinc-500">
+                      +{formatPrice(order.shippingCost)} ongkir
                     </p>
                   )}
-                  <div className="mt-1">
+                  <div className="flex items-center gap-2">
                     <Badge variant={statusColors[order.status] || "default"}>{order.status}</Badge>
+                    <span className="text-xs text-zinc-400">{order.items.length} item</span>
                   </div>
-                  <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                    {order.items.length} item
-                  </p>
                 </div>
               </div>
             </Link>

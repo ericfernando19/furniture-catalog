@@ -32,7 +32,7 @@ export default function ReceiptPage() {
   if (!loaded) {
     return (
       <div className="container-premium py-20">
-        <div className="h-96 animate-pulse rounded-2xl bg-gray-100 dark:bg-gray-800" />
+        <div className="h-96 animate-pulse rounded-2xl bg-zinc-100 dark:bg-zinc-800" />
       </div>
     );
   }
@@ -52,9 +52,9 @@ export default function ReceiptPage() {
 
   return (
     <div className="container-premium py-10 sm:py-16">
-      <div className="mx-auto text-center mb-8">
-        <h1 className="text-2xl font-bold text-[#3E2723] dark:text-[#F5EDE0]">Pesanan Berhasil</h1>
-        <p className="mt-2 text-sm text-[#4A3728] dark:text-gray-400">
+      <div className="mb-8 text-center">
+        <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-100">Pesanan Berhasil</h1>
+        <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
           Pesanan Anda telah dikirim ke WhatsApp admin. Simpan struk ini sebagai bukti.
         </p>
       </div>

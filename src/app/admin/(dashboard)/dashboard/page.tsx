@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { StatsCard } from "@/components/admin/StatsCard";
+import { PageHeader } from "@/components/admin/PageHeader";
+import { Badge } from "@/components/admin/Badge";
+import { AdminChart } from "@/components/admin/AdminChart";
 import { requireAdmin } from "@/lib/auth";
 import { formatPrice } from "@/lib/utils";
 
@@ -8,76 +12,158 @@ export const metadata: Metadata = {
   title: "Dashboard",
 };
 
+const statusColors: Record<string, "gold" | "warning" | "success" | "danger"> = {
+  BARU: "gold",
+  DIPROSES: "warning",
+  SELESAI: "success",
+  DIBATALKAN: "danger",
+};
+
 export default async function DashboardPage() {
   await requireAdmin();
 
-  const [totalProducts, totalOrders, totalCategories, orders] = await Promise.all([
-    prisma.product.count(),
-    prisma.order.count(),
-    prisma.category.count(),
-    prisma.order.findMany({ orderBy: { createdAt: "desc" }, take: 5 }),
-  ]);
+    const [totalProducts, totalOrders, recentOrders, revenueResult, statusCounts] =
+    await Promise.all([
+      prisma.product.count(),
+      prisma.order.count(),
+      prisma.order.findMany({ orderBy: { createdAt: "desc" }, take: 5 }),
+      prisma.order.aggregate({
+        _sum: { totalAmount: true },
+        where: { status: { not: "DIBATALKAN" } },
+      }),
+      prisma.order.groupBy({
+        by: ["status"],
+        _count: true,
+        where: { status: { not: "DIBATALKAN" } },
+      }),
+    ]);
+
+  const totalRevenue = revenueResult._sum.totalAmount || 0;
+
+  const statusMap = Object.fromEntries(statusCounts.map((s) => [s.status, s._count]));
+  const pendingOrders = (statusMap["BARU"] || 0) + (statusMap["DIPROSES"] || 0);
+  const completedOrders = statusMap["SELESAI"] || 0;
+
+  const monthlyData = [
+    { label: "Jan", value: 0 },
+    { label: "Feb", value: 0 },
+    { label: "Mar", value: 0 },
+    { label: "Apr", value: 0 },
+    { label: "Mei", value: 0 },
+    { label: "Jun", value: 0 },
+  ];
 
   return (
     <div>
-      <div className="mb-8">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#8B6914]">Admin</p>
-        <h1 className="mt-1 text-2xl font-bold text-[#3E2723] dark:text-[#F5EDE0] sm:text-3xl">
-          Dashboard
-        </h1>
-      </div>
+      <PageHeader
+        title="Dashboard"
+        description="Selamat datang kembali. Berikut ringkasan toko Anda hari ini."
+      />
 
-      <div className="mb-8 grid gap-4 sm:grid-cols-3">
+      <div className="mb-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <StatsCard
           title="Total Produk"
           value={totalProducts}
-          color="gold"
+          color="amber"
           icon="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+          description="Produk aktif di katalog"
         />
         <StatsCard
           title="Total Pesanan"
           value={totalOrders}
           color="blue"
           icon="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+          trend={pendingOrders > 0 ? { value: pendingOrders, label: "perlu diproses" } : null}
         />
         <StatsCard
-          title="Total Kategori"
-          value={totalCategories}
-          color="purple"
-          icon="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
+          title="Selesai"
+          value={completedOrders}
+          color="emerald"
+          icon="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+          description="Pesanan telah selesai"
+        />
+        <StatsCard
+          title="Pendapatan"
+          value={formatPrice(totalRevenue)}
+          color="violet"
+          icon="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+          description="Total pendapatan bersih"
         />
       </div>
 
-      <div className="rounded-2xl border border-gray-100 bg-white shadow-sm dark:border-gray-800 dark:bg-[#2C1810]">
-        <div className="border-b border-gray-100 px-6 py-4 dark:border-gray-800">
-          <h2 className="font-bold text-[#3E2723] dark:text-[#F5EDE0]">Pesanan Terbaru</h2>
+      <div className="mb-5 grid gap-3 lg:grid-cols-5">
+        <div className="lg:col-span-3">
+          <AdminChart
+            data={monthlyData}
+            title="Pendapatan Bulanan"
+            subtitle="6 bulan terakhir"
+          />
         </div>
-        {orders.length === 0 ? (
-          <div className="px-6 py-10 text-center text-sm text-gray-500 dark:text-gray-400">
+        <div className="lg:col-span-2">
+          <div className="card-admin flex h-full flex-col p-5">
+            <h3 className="mb-4 text-[13px] font-semibold text-zinc-900 dark:text-zinc-100">Status Pesanan</h3>
+            <div className="flex-1 space-y-3">
+              {[
+                { label: "Baru", count: statusMap["BARU"] || 0, color: "bg-amber-500" },
+                { label: "Diproses", count: statusMap["DIPROSES"] || 0, color: "bg-blue-500" },
+                { label: "Selesai", count: statusMap["SELESAI"] || 0, color: "bg-emerald-500" },
+                { label: "Dibatalkan", count: statusMap["DIBATALKAN"] || 0, color: "bg-red-400" },
+              ].map((item) => {
+                const total = Math.max(pendingOrders + completedOrders + (statusMap["DIBATALKAN"] || 0), 1);
+                const pct = Math.round((item.count / total) * 100);
+                return (
+                  <div key={item.label}>
+                    <div className="mb-1 flex items-center justify-between">
+                      <span className="text-[12px] font-medium text-zinc-600 dark:text-zinc-400">{item.label}</span>
+                      <span className="text-[12px] font-semibold tabular-nums text-zinc-900 dark:text-zinc-100">{item.count}</span>
+                    </div>
+                    <div className="h-1.5 overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800">
+                      <div className={cn("h-full rounded-full transition-all duration-500", item.color)} style={{ width: `${pct}%` }} />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="card-admin">
+        <div className="flex items-center justify-between border-b border-zinc-200 px-5 py-3.5 dark:border-zinc-800">
+          <h3 className="text-[13px] font-semibold text-zinc-900 dark:text-zinc-100">Pesanan Terbaru</h3>
+          <Link
+            href="/admin/orders"
+            className="text-[12px] font-medium text-amber-600 transition-colors hover:text-amber-700 dark:text-amber-400 dark:hover:text-amber-300"
+          >
+            Lihat semua &rarr;
+          </Link>
+        </div>
+        {recentOrders.length === 0 ? (
+          <div className="px-5 py-14 text-center text-[13px] text-zinc-400">
             Belum ada pesanan.
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-gray-50 dark:bg-[#1A120B]">
+            <table className="table-admin">
+              <thead>
                 <tr>
-                  <th className="px-6 py-4 text-left text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">Pelanggan</th>
-                  <th className="px-6 py-4 text-left text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">Total</th>
-                  <th className="px-6 py-4 text-left text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">Status</th>
-                  <th className="px-6 py-4 text-left text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">Tanggal</th>
+                  <th>Pelanggan</th>
+                  <th>Total</th>
+                  <th>Status</th>
+                  <th>Tanggal</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
-                {orders.map((order) => (
-                  <tr key={order.id} className="transition-colors hover:bg-gray-50/50 dark:hover:bg-gray-800/50">
-                    <td className="px-6 py-4 text-sm font-medium text-[#3E2723] dark:text-[#F5EDE0]">{order.customerName}</td>
-                    <td className="px-6 py-4 text-sm font-semibold text-[#3E2723] dark:text-[#F5EDE0]">
+              <tbody>
+                {recentOrders.map((order) => (
+                  <tr key={order.id}>
+                    <td className="font-medium text-zinc-900 dark:text-zinc-100">{order.customerName}</td>
+                    <td className="font-semibold tabular-nums text-zinc-900 dark:text-zinc-100">
                       {formatPrice(order.totalAmount)}
                     </td>
-                    <td className="px-6 py-4">
-                      <StatusBadge status={order.status} />
+                    <td>
+                      <Badge variant={statusColors[order.status] || "default"}>{order.status}</Badge>
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-500 dark:text-gray-400">
+                    <td className="text-zinc-500 dark:text-zinc-400">
                       {new Date(order.createdAt).toLocaleDateString("id-ID")}
                     </td>
                   </tr>
@@ -91,18 +177,6 @@ export default async function DashboardPage() {
   );
 }
 
-function StatusBadge({ status }: { status: string }) {
-  const colors: Record<string, string> = {
-    BARU: "bg-[#8B6914]/10 text-[#8B6914]",
-    DIPROSES: "bg-amber-50 text-amber-600 dark:bg-amber-900/20 dark:text-amber-400",
-    SELESAI: "bg-green-50 text-green-600 dark:bg-green-900/20 dark:text-green-400",
-    DIBATALKAN: "bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-400",
-  };
-  const color = colors[status] || "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400";
-
-  return (
-    <span className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${color}`}>
-      {status}
-    </span>
-  );
+function cn(...classes: (string | boolean | undefined | null)[]) {
+  return classes.filter(Boolean).join(" ");
 }

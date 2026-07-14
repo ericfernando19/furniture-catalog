@@ -57,7 +57,7 @@ export function LoginForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="mt-2 w-full rounded-xl bg-[#8B6914] px-6 py-3 text-sm font-bold text-[#3E2723] shadow-lg shadow-[#8B6914]/20 transition-all duration-200 hover:bg-[#A0781A] active:scale-[0.98] disabled:opacity-50"
+        className="mt-2 w-full rounded-lg bg-amber-600 px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-amber-700 active:scale-[0.98] disabled:opacity-50"
       >
         {isSubmitting ? "Memproses..." : "Masuk"}
       </button>

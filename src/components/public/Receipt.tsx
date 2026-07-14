@@ -73,62 +73,62 @@ export function Receipt({ data, orderNumber }: ReceiptProps) {
   }
 
   return (
-    <div className="max-w-sm mx-auto">
-      <div className="bg-white border-2 border-dashed border-gray-300 p-6 font-mono text-sm text-black">
+    <div className="mx-auto max-w-sm">
+      <div className="rounded-2xl border-2 border-dashed border-zinc-300 bg-white p-6 font-mono text-sm text-zinc-900 dark:border-zinc-700 dark:bg-zinc-900">
         <div ref={ref}>
           <h1 className="text-center text-xl font-bold tracking-tight">MyFurni</h1>
-          <p className="text-center text-[10px] text-gray-500 mb-1">Koleksi Furniture Premium</p>
+          <p className="mb-1 text-center text-[10px] text-zinc-400">Koleksi Furniture Premium</p>
           {orderNumber && (
-            <p className="text-center text-[10px] text-gray-400 mb-2"># {orderNumber}</p>
+            <p className="mb-2 text-center text-[10px] text-zinc-400"># {orderNumber}</p>
           )}
-          <p className="text-center text-[9px] text-gray-400 mb-4">{formatDate(new Date())}</p>
+          <p className="mb-4 text-center text-[9px] text-zinc-400">{formatDate(new Date())}</p>
 
-          <hr className="border-dashed" />
+          <hr className="border-dashed border-zinc-300" />
 
-          <div className="info my-3 text-[11px] space-y-0.5">
+          <div className="my-3 space-y-0.5 text-[11px]">
             <p><strong>Nama</strong> {data.customerName}</p>
             <p><strong>WA</strong> {data.phone}</p>
             <p><strong>Alamat</strong> {data.address}</p>
             {data.notes && <p><strong>Catatan</strong> {data.notes}</p>}
           </div>
 
-          <hr className="border-dashed" />
+          <hr className="border-dashed border-zinc-300" />
 
-          <table className="w-full text-[11px] mt-2">
+          <table className="mt-2 w-full text-[11px]">
             <thead>
-              <tr className="font-semibold border-b border-black">
+              <tr className="border-b border-zinc-900 font-semibold">
                 <th className="w-[55%] text-left">Produk</th>
-                <th className="text-center w-[20%]">Qty</th>
-                <th className="text-right w-[25%]">Total</th>
+                <th className="w-[20%] text-center">Qty</th>
+                <th className="w-[25%] text-right">Total</th>
               </tr>
             </thead>
             <tbody>
               {data.items.map((item, i) => (
                 <tr key={i}>
-                  <td className="truncate max-w-[120px] py-1">{item.productName}</td>
-                  <td className="text-center py-1">{item.quantity}</td>
-                  <td className="text-right py-1">{formatPrice(item.price * item.quantity)}</td>
+                  <td className="max-w-[120px] truncate py-1">{item.productName}</td>
+                  <td className="py-1 text-center">{item.quantity}</td>
+                  <td className="py-1 text-right">{formatPrice(item.price * item.quantity)}</td>
                 </tr>
               ))}
             </tbody>
           </table>
 
-          <hr className="border-dashed" />
+          <hr className="border-dashed border-zinc-300" />
 
           {data.shippingCost && data.shippingCost > 0 && (
-            <div className="flex justify-between items-center mt-2 text-[11px]">
-              <span className="text-gray-500">Ongkir</span>
+            <div className="mt-2 flex items-center justify-between text-[11px]">
+              <span className="text-zinc-500">Ongkir</span>
               <span>{formatPrice(data.shippingCost)}</span>
             </div>
           )}
-          <div className="flex justify-between items-center mt-2">
+          <div className="mt-2 flex items-center justify-between">
             <span className="text-sm font-bold">TOTAL</span>
             <span className="text-base font-bold">{formatPrice(data.totalAmount)}</span>
           </div>
 
-          <hr className="border-dashed" />
+          <hr className="border-dashed border-zinc-300" />
 
-          <p className="text-center text-[9px] text-gray-400 mt-4 leading-relaxed">
+          <p className="mt-4 text-center text-[9px] leading-relaxed text-zinc-400">
             Terima kasih telah berbelanja<br />di MyFurni
           </p>
         </div>
@@ -137,13 +137,13 @@ export function Receipt({ data, orderNumber }: ReceiptProps) {
       <div className="mt-6 flex justify-center gap-3">
         <button
           onClick={handlePrint}
-          className="rounded-xl bg-[#8B6914] px-6 py-3 text-sm font-bold text-[#FFF8F0] shadow-sm transition-all hover:bg-[#A0781A]"
+          className="rounded-lg bg-amber-600 px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-amber-700"
         >
-          🖨 Cetak Struk
+          Cetak Struk
         </button>
         <button
           onClick={() => window.location.href = "/products"}
-          className="rounded-xl border border-gray-300 px-6 py-3 text-sm font-semibold text-[#4A3728] transition-all hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300"
+          className="rounded-lg border border-zinc-200 px-6 py-2.5 text-sm font-semibold text-zinc-600 transition-all hover:bg-zinc-50 dark:border-zinc-700 dark:text-zinc-400"
         >
           Lanjut Belanja
         </button>

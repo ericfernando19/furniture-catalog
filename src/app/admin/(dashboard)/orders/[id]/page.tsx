@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/auth";
 import { formatPrice, formatDate } from "@/lib/utils";
 import { Badge } from "@/components/admin/Badge";
+import { PageHeader } from "@/components/admin/PageHeader";
 import { OrderActions } from "./OrderActions";
 import { OrderEdit } from "./OrderEdit";
 import { PrintReceipt } from "./PrintReceipt";
@@ -38,87 +39,84 @@ export default async function OrderDetailPage({ params }: OrderDetailProps) {
 
   return (
     <div>
-      <div className="mb-6">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#8B6914]">Pesanan</p>
-        <h1 className="mt-1 text-2xl font-bold text-[#3E2723] dark:text-[#F5EDE0]">
-          Detail Pesanan #{order.id}
-        </h1>
-      </div>
+      <PageHeader
+        title={`Pesanan #${order.id}`}
+        description={formatDate(order.createdAt)}
+      />
 
-      <div className="grid gap-6 lg:grid-cols-3">
-        <div className="space-y-6 lg:col-span-2">
-          <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-[#2C1810]">
-            <h2 className="mb-4 font-bold text-[#3E2723] dark:text-[#F5EDE0]">Data Pembeli</h2>
-            <div className="space-y-2 text-sm">
-              <p className="text-[#4A3728] dark:text-gray-300">
-                <span className="text-gray-500 dark:text-gray-400">Nama:</span> {order.customerName}
-              </p>
-              <p className="text-[#4A3728] dark:text-gray-300">
-                <span className="text-gray-500 dark:text-gray-400">WhatsApp:</span> {order.phone}
-              </p>
-              <p className="text-[#4A3728] dark:text-gray-300">
-                <span className="text-gray-500 dark:text-gray-400">Alamat:</span> {order.address}
-              </p>
+      <div className="grid gap-5 lg:grid-cols-3">
+        <div className="space-y-5 lg:col-span-2">
+          <div className="card-admin p-5">
+            <h2 className="mb-4 text-sm font-semibold text-zinc-900 dark:text-zinc-100">Data Pembeli</h2>
+            <div className="space-y-2.5 text-sm">
+              <div className="flex">
+                <span className="w-24 flex-shrink-0 text-zinc-400">Nama</span>
+                <span className="text-zinc-900 dark:text-zinc-100">{order.customerName}</span>
+              </div>
+              <div className="flex">
+                <span className="w-24 flex-shrink-0 text-zinc-400">WhatsApp</span>
+                <span className="text-zinc-900 dark:text-zinc-100">{order.phone}</span>
+              </div>
+              <div className="flex">
+                <span className="w-24 flex-shrink-0 text-zinc-400">Alamat</span>
+                <span className="text-zinc-900 dark:text-zinc-100">{order.address}</span>
+              </div>
               {order.notes && (
-                <p className="text-[#4A3728] dark:text-gray-300">
-                  <span className="text-gray-500 dark:text-gray-400">Catatan:</span> {order.notes}
-                </p>
+                <div className="flex">
+                  <span className="w-24 flex-shrink-0 text-zinc-400">Catatan</span>
+                  <span className="text-zinc-900 dark:text-zinc-100">{order.notes}</span>
+                </div>
               )}
             </div>
           </div>
 
-          <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-[#2C1810]">
-            <h2 className="mb-4 font-bold text-[#3E2723] dark:text-[#F5EDE0]">Pesanan</h2>
-            <div className="space-y-4">
+          <div className="card-admin p-5">
+            <h2 className="mb-4 text-sm font-semibold text-zinc-900 dark:text-zinc-100">Item Pesanan</h2>
+            <div className="space-y-3">
               {order.items.map((item) => (
                 <div key={item.id} className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="relative h-12 w-12 flex-shrink-0 overflow-hidden rounded-xl bg-gray-100 dark:bg-gray-800">
+                    <div className="relative h-11 w-11 flex-shrink-0 overflow-hidden rounded-lg bg-zinc-100 dark:bg-zinc-800">
                       <Image
                         src={item.product.imageUrl}
                         alt={item.product.name}
                         fill
                         className="object-cover"
-                        sizes="48px"
+                        sizes="44px"
                       />
                     </div>
                     <div>
-                      <p className="text-sm font-semibold text-[#3E2723] dark:text-[#F5EDE0]">{item.product.name}</p>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                      <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100">{item.product.name}</p>
+                      <p className="text-xs text-zinc-500 dark:text-zinc-400">
                         {formatPrice(item.price)} x {item.quantity}
                       </p>
                     </div>
                   </div>
-                  <p className="text-sm font-semibold text-[#3E2723] dark:text-[#F5EDE0]">
+                  <p className="text-sm font-semibold tabular-nums text-zinc-900 dark:text-zinc-100">
                     {formatPrice(item.price * item.quantity)}
                   </p>
                 </div>
               ))}
             </div>
-            <div className="mt-4 border-t border-gray-100 pt-4 dark:border-gray-800">
+            <div className="mt-4 border-t border-zinc-200 pt-4 dark:border-zinc-700">
               {order.shippingCost > 0 && (
-                <div className="flex justify-between text-sm text-gray-500 dark:text-gray-400">
+                <div className="flex justify-between text-sm text-zinc-500 dark:text-zinc-400">
                   <span>Ongkir</span>
                   <span>{formatPrice(order.shippingCost)}</span>
                 </div>
               )}
               <div className="flex justify-between">
-                <span className="font-bold text-[#3E2723] dark:text-[#F5EDE0]">Total</span>
-                <span className="text-lg font-bold text-[#8B6914]">{formatPrice(order.totalAmount)}</span>
+                <span className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Total</span>
+                <span className="text-lg font-bold tabular-nums text-amber-600">{formatPrice(order.totalAmount)}</span>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="space-y-6">
-          <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-[#2C1810]">
-            <h2 className="mb-4 font-bold text-[#3E2723] dark:text-[#F5EDE0]">Status</h2>
-            <div className="mb-4">
-              <Badge variant={statusColors[order.status] || "default"}>{order.status}</Badge>
-            </div>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
-              Dibuat: {formatDate(order.createdAt)}
-            </p>
+        <div className="space-y-5">
+          <div className="card-admin p-5">
+            <h2 className="mb-3 text-sm font-semibold text-zinc-900 dark:text-zinc-100">Status</h2>
+            <Badge variant={statusColors[order.status] || "default"}>{order.status}</Badge>
           </div>
 
           <OrderActions
@@ -141,7 +139,7 @@ export default async function OrderDetailPage({ params }: OrderDetailProps) {
             }))}
           />
 
-          <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-[#2C1810]">
+          <div className="card-admin p-5">
             <PrintReceipt
               order={{
                 id: order.id,
