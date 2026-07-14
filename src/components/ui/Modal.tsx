@@ -27,7 +27,7 @@ export function Modal({ open, onClose, title, children, className }: ModalProps)
   return (
     <AnimatePresence>
       {open && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 text-left">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -48,7 +48,7 @@ export function Modal({ open, onClose, title, children, className }: ModalProps)
           >
             {title && (
               <div className="mb-4 flex items-center justify-between">
-                <h2 className="text-lg font-bold text-[#3E2723] dark:text-[#F5EDE0]">{title}</h2>
+                <h2 className="text-left text-lg font-bold text-[#3E2723] dark:text-[#F5EDE0]">{title}</h2>
                 <button
                   onClick={onClose}
                   className="rounded-xl p-1.5 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-gray-800"

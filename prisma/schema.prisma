@@ -45,6 +45,7 @@ model Order {
   address      String
   notes        String?
   totalAmount  Float
+  shippingCost Float       @default(0)
   status       String      @default("BARU")
   createdAt    DateTime    @default(now())
   items        OrderItem[]

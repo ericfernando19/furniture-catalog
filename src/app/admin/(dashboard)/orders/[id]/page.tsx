@@ -6,6 +6,7 @@ import { requireAdmin } from "@/lib/auth";
 import { formatPrice, formatDate } from "@/lib/utils";
 import { Badge } from "@/components/admin/Badge";
 import { OrderActions } from "./OrderActions";
+import { OrderEdit } from "./OrderEdit";
 import { PrintReceipt } from "./PrintReceipt";
 
 export const metadata: Metadata = {
@@ -95,6 +96,12 @@ export default async function OrderDetailPage({ params }: OrderDetailProps) {
               ))}
             </div>
             <div className="mt-4 border-t border-gray-100 pt-4 dark:border-gray-800">
+              {order.shippingCost > 0 && (
+                <div className="flex justify-between text-sm text-gray-500 dark:text-gray-400">
+                  <span>Ongkir</span>
+                  <span>{formatPrice(order.shippingCost)}</span>
+                </div>
+              )}
               <div className="flex justify-between">
                 <span className="font-bold text-[#3E2723] dark:text-[#F5EDE0]">Total</span>
                 <span className="text-lg font-bold text-[#8B6914]">{formatPrice(order.totalAmount)}</span>
@@ -120,6 +127,20 @@ export default async function OrderDetailPage({ params }: OrderDetailProps) {
             customerPhone={order.phone}
           />
 
+          <OrderEdit
+            orderId={order.id}
+            shippingCost={order.shippingCost}
+            currentStatus={order.status}
+            items={order.items.map((i) => ({
+              id: i.id,
+              productId: i.productId,
+              product: { name: i.product.name, imageUrl: i.product.imageUrl },
+              quantity: i.quantity,
+              price: i.price,
+              originalPrice: i.product.price,
+            }))}
+          />
+
           <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-[#2C1810]">
             <PrintReceipt
               order={{
@@ -129,6 +150,7 @@ export default async function OrderDetailPage({ params }: OrderDetailProps) {
                 address: order.address,
                 notes: order.notes,
                 totalAmount: order.totalAmount,
+                shippingCost: order.shippingCost,
                 createdAt: order.createdAt.toISOString(),
                 items: order.items.map((i) => ({
                   productName: i.product.name,

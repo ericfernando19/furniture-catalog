@@ -89,6 +89,11 @@ export default async function AdminOrdersPage({ searchParams }: OrdersPageProps)
                 </div>
                 <div className="text-right">
                   <p className="text-lg font-bold text-[#8B6914]">{formatPrice(order.totalAmount)}</p>
+                  {order.shippingCost > 0 && (
+                    <p className="text-xs text-gray-400 dark:text-gray-500">
+                      (+{formatPrice(order.shippingCost)} ongkir)
+                    </p>
+                  )}
                   <div className="mt-1">
                     <Badge variant={statusColors[order.status] || "default"}>{order.status}</Badge>
                   </div>

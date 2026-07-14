@@ -8,6 +8,7 @@ import Image from "next/image";
 import { Input } from "@/components/ui/Input";
 import { formatPrice } from "@/lib/utils";
 import { EmptyState } from "@/components/public/EmptyState";
+import { useToast } from "@/hooks/useToast";
 
 function generateWhatsAppMessage(data: CheckoutInput, items: { name: string; quantity: number; price: number }[], subtotal: number) {
   const lines = [
@@ -45,10 +46,25 @@ export function CheckoutForm() {
     resolver: zodResolver(checkoutSchema),
   });
 
-  function onSubmit(data: CheckoutInput) {
+  const toast = useToast();
+
+  async function onSubmit(data: CheckoutInput) {
     const message = generateWhatsAppMessage(data, items, subtotal);
     const encoded = encodeURIComponent(message);
     const waUrl = `https://wa.me/${adminWA}?text=${encoded}`;
+
+    const orderPayload = {
+      customerName: data.customerName,
+      phone: data.phone,
+      address: data.address,
+      notes: data.notes || "",
+      totalAmount: subtotal,
+      items: items.map((i) => ({
+        productId: i.id,
+        quantity: i.quantity,
+        price: i.price,
+      })),
+    };
 
     const orderData = {
       ...data,
@@ -59,6 +75,19 @@ export function CheckoutForm() {
       })),
       totalAmount: subtotal,
     };
+
+    try {
+      const res = await fetch("/api/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(orderPayload),
+      });
+
+      if (!res.ok) throw new Error("Gagal menyimpan pesanan");
+      toast.success("Pesanan berhasil disimpan");
+    } catch {
+      toast.error("Gagal menyimpan pesanan ke database");
+    }
 
     localStorage.setItem("katalog-toko-last-order", JSON.stringify(orderData));
     clearCart();

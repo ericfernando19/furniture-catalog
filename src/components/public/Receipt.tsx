@@ -16,6 +16,7 @@ interface ReceiptData {
   notes?: string;
   items: ReceiptItem[];
   totalAmount: number;
+  shippingCost?: number;
 }
 
 interface ReceiptProps {
@@ -35,25 +36,31 @@ export function Receipt({ data, orderNumber }: ReceiptProps) {
           <title>Struk Pesanan - MyFurni</title>
           <style>
             @page { margin: 0; size: 80mm auto; }
+            * { margin: 0; padding: 0; box-sizing: border-box; }
             body {
               font-family: 'Courier New', monospace;
-              font-size: 12px;
+              font-size: 11px;
               margin: 0;
-              padding: 16px;
+              padding: 8mm;
               color: #000;
               width: 80mm;
+              line-height: 1.4;
             }
-            h1 { font-size: 18px; text-align: center; margin: 0 0 4px; }
-            .sub { text-align: center; font-size: 11px; margin-bottom: 12px; color: #555; }
-            hr { border: none; border-top: 1px dashed #000; margin: 8px 0; }
-            table { width: 100%; border-collapse: collapse; }
-            th, td { padding: 4px 0; text-align: left; }
+            h1 { font-size: 16px; text-align: center; margin: 0 0 2px; font-weight: bold; }
+            .sub { text-align: center; font-size: 10px; margin-bottom: 8px; color: #444; }
+            hr { border: none; border-top: 1px dashed #000; margin: 6px 0; }
+            table { width: 100%; border-collapse: collapse; margin: 4px 0; }
+            th, td { padding: 2px 0; text-align: left; font-size: 10px; }
+            th { font-weight: bold; border-bottom: 1px solid #000; padding-bottom: 4px; }
             td:last-child { text-align: right; }
-            .total { font-weight: bold; font-size: 14px; }
-            .info { margin: 8px 0; font-size: 11px; }
-            .info strong { display: inline-block; min-width: 60px; }
-            .footer { text-align: center; margin-top: 12px; font-size: 10px; color: #555; }
-            .order-num { text-align: center; font-size: 10px; color: #888; margin-bottom: 8px; }
+            .total-line { font-weight: bold; font-size: 13px; margin-top: 6px; }
+            .info { margin: 6px 0; font-size: 10px; }
+            .info p { margin: 2px 0; }
+            .info strong { display: inline-block; min-width: 50px; }
+            .footer { text-align: center; margin-top: 10px; font-size: 9px; color: #444; line-height: 1.5; }
+            .order-num { text-align: center; font-size: 10px; color: #666; margin-bottom: 6px; }
+            .date { text-align: center; font-size: 9px; color: #666; margin-bottom: 8px; }
+            .product-name { max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
           </style>
         </head>
         <body>
@@ -74,7 +81,7 @@ export function Receipt({ data, orderNumber }: ReceiptProps) {
           {orderNumber && (
             <p className="text-center text-[10px] text-gray-400 mb-2"># {orderNumber}</p>
           )}
-          <p className="text-center text-[10px] text-gray-400 mb-4">{formatDate(new Date())}</p>
+          <p className="text-center text-[9px] text-gray-400 mb-4">{formatDate(new Date())}</p>
 
           <hr className="border-dashed" />
 
@@ -89,8 +96,8 @@ export function Receipt({ data, orderNumber }: ReceiptProps) {
 
           <table className="w-full text-[11px] mt-2">
             <thead>
-              <tr className="font-semibold">
-                <th className="w-[55%]">Produk</th>
+              <tr className="font-semibold border-b border-black">
+                <th className="w-[55%] text-left">Produk</th>
                 <th className="text-center w-[20%]">Qty</th>
                 <th className="text-right w-[25%]">Total</th>
               </tr>
@@ -98,9 +105,9 @@ export function Receipt({ data, orderNumber }: ReceiptProps) {
             <tbody>
               {data.items.map((item, i) => (
                 <tr key={i}>
-                  <td className="truncate max-w-[130px]">{item.productName}</td>
-                  <td className="text-center">{item.quantity}</td>
-                  <td className="text-right">{formatPrice(item.price * item.quantity)}</td>
+                  <td className="truncate max-w-[120px] py-1">{item.productName}</td>
+                  <td className="text-center py-1">{item.quantity}</td>
+                  <td className="text-right py-1">{formatPrice(item.price * item.quantity)}</td>
                 </tr>
               ))}
             </tbody>
@@ -108,6 +115,12 @@ export function Receipt({ data, orderNumber }: ReceiptProps) {
 
           <hr className="border-dashed" />
 
+          {data.shippingCost && data.shippingCost > 0 && (
+            <div className="flex justify-between items-center mt-2 text-[11px]">
+              <span className="text-gray-500">Ongkir</span>
+              <span>{formatPrice(data.shippingCost)}</span>
+            </div>
+          )}
           <div className="flex justify-between items-center mt-2">
             <span className="text-sm font-bold">TOTAL</span>
             <span className="text-base font-bold">{formatPrice(data.totalAmount)}</span>
@@ -115,7 +128,7 @@ export function Receipt({ data, orderNumber }: ReceiptProps) {
 
           <hr className="border-dashed" />
 
-          <p className="text-center text-[10px] text-gray-400 mt-4 leading-relaxed">
+          <p className="text-center text-[9px] text-gray-400 mt-4 leading-relaxed">
             Terima kasih telah berbelanja<br />di MyFurni
           </p>
         </div>
