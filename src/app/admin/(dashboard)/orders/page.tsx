@@ -5,7 +5,6 @@ import { requireAdmin } from "@/lib/auth";
 import { formatPrice, formatDate } from "@/lib/utils";
 import { EmptyState } from "@/components/public/EmptyState";
 import { Badge } from "@/components/admin/Badge";
-import { PageHeader } from "@/components/admin/PageHeader";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
@@ -42,8 +41,6 @@ export default async function AdminOrdersPage({ searchParams }: OrdersPageProps)
 
   return (
     <div>
-      <PageHeader title="Pesanan" description={`${orders.length} pesanan`} />
-
       <div className="mb-6 flex flex-wrap gap-1.5">
         <Link
           href="/admin/orders"

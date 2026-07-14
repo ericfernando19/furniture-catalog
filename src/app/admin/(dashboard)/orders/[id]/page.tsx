@@ -3,9 +3,8 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/auth";
-import { formatPrice, formatDate } from "@/lib/utils";
+import { formatPrice } from "@/lib/utils";
 import { Badge } from "@/components/admin/Badge";
-import { PageHeader } from "@/components/admin/PageHeader";
 import { OrderActions } from "./OrderActions";
 import { OrderEdit } from "./OrderEdit";
 import { PrintReceipt } from "./PrintReceipt";
@@ -39,11 +38,6 @@ export default async function OrderDetailPage({ params }: OrderDetailProps) {
 
   return (
     <div>
-      <PageHeader
-        title={`Pesanan #${order.id}`}
-        description={formatDate(order.createdAt)}
-      />
-
       <div className="grid gap-5 lg:grid-cols-3">
         <div className="space-y-5 lg:col-span-2">
           <div className="card-admin p-5">

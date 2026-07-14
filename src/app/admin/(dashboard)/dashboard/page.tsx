@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { StatsCard } from "@/components/admin/StatsCard";
-import { PageHeader } from "@/components/admin/PageHeader";
 import { Badge } from "@/components/admin/Badge";
 import { AdminChart } from "@/components/admin/AdminChart";
 import { requireAdmin } from "@/lib/auth";
@@ -55,11 +54,6 @@ export default async function DashboardPage() {
 
   return (
     <div>
-      <PageHeader
-        title="Dashboard"
-        description="Selamat datang kembali. Berikut ringkasan toko Anda hari ini."
-      />
-
       <div className="mb-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <StatsCard
           title="Total Produk"

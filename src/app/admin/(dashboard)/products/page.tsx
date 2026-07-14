@@ -4,7 +4,6 @@ import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/auth";
 import { formatPrice, formatDate } from "@/lib/utils";
 import { EmptyState } from "@/components/public/EmptyState";
-import { PageHeader } from "@/components/admin/PageHeader";
 import { DeleteButton } from "./DeleteButton";
 import { AddProductModal } from "./AddProductModal";
 import { EditProductModal } from "./EditProductModal";
@@ -23,11 +22,10 @@ export default async function AdminProductsPage() {
 
   return (
     <div>
-      <PageHeader
-        title="Produk"
-        description={`${products.length} produk terdaftar`}
-        actions={<AddProductModal />}
-      />
+      <div className="mb-4 flex items-center justify-between">
+        <p className="text-[12px] text-zinc-400">{products.length} produk terdaftar</p>
+        <AddProductModal />
+      </div>
 
       {products.length === 0 ? (
         <EmptyState

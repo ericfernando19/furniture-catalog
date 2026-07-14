@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/auth";
-import { PageHeader } from "@/components/admin/PageHeader";
 import { ProductForm } from "../../ProductForm";
 
 export const metadata: Metadata = {
@@ -27,7 +26,6 @@ export default async function EditProductPage({ params }: EditProductPageProps) 
 
   return (
     <div>
-      <PageHeader title="Edit Produk" description={`Mengedit ${product.name}`} />
       <div className="max-w-2xl">
         <ProductForm categories={categories} product={product} />
       </div>

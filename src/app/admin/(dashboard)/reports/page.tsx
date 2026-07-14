@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/auth";
-import { PageHeader } from "@/components/admin/PageHeader";
 import { ReportClient } from "./ReportClient";
 
 export const metadata: Metadata = {
@@ -18,10 +17,6 @@ export default async function ReportsPage() {
 
   return (
     <div>
-      <PageHeader
-        title="Laporan"
-        description="Ringkasan pesanan dan pendapatan."
-      />
       <ReportClient orders={orders} />
     </div>
   );

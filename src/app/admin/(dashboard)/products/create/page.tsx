@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/auth";
-import { PageHeader } from "@/components/admin/PageHeader";
 import { ProductForm } from "../ProductForm";
 
 export const metadata: Metadata = {
@@ -14,7 +13,6 @@ export default async function CreateProductPage() {
 
   return (
     <div>
-      <PageHeader title="Tambah Produk" description="Tambahkan produk baru ke katalog." />
       <div className="max-w-2xl">
         <ProductForm categories={categories} />
       </div>
