@@ -74,7 +74,7 @@ export function Receipt({ data, orderNumber }: ReceiptProps) {
 
   return (
     <div className="mx-auto max-w-sm">
-      <div className="rounded-2xl border-2 border-dashed border-zinc-300 bg-white p-6 font-mono text-sm text-zinc-900 dark:border-zinc-700 dark:bg-zinc-900">
+      <div className="rounded-2xl border-2 border-dashed border-zinc-300 bg-white p-6 font-mono text-sm text-zinc-900 dark:border-zinc-600 dark:bg-zinc-900 dark:text-zinc-100">
         <div ref={ref}>
           <h1 className="text-center text-xl font-bold tracking-tight">MyFurni</h1>
           <p className="mb-1 text-center text-[10px] text-zinc-400">Koleksi Furniture Premium</p>
@@ -83,20 +83,20 @@ export function Receipt({ data, orderNumber }: ReceiptProps) {
           )}
           <p className="mb-4 text-center text-[9px] text-zinc-400">{formatDate(new Date())}</p>
 
-          <hr className="border-dashed border-zinc-300" />
+          <hr className="border-dashed border-zinc-300 dark:border-zinc-600" />
 
-          <div className="my-3 space-y-0.5 text-[11px]">
+          <div className="my-3 space-y-0.5 text-[11px] dark:text-zinc-200">
             <p><strong>Nama</strong> {data.customerName}</p>
             <p><strong>WA</strong> {data.phone}</p>
             <p><strong>Alamat</strong> {data.address}</p>
             {data.notes && <p><strong>Catatan</strong> {data.notes}</p>}
           </div>
 
-          <hr className="border-dashed border-zinc-300" />
+          <hr className="border-dashed border-zinc-300 dark:border-zinc-600" />
 
           <table className="mt-2 w-full text-[11px]">
             <thead>
-              <tr className="border-b border-zinc-900 font-semibold">
+              <tr className="border-b border-zinc-900 dark:border-zinc-400 font-semibold">
                 <th className="w-[55%] text-left">Produk</th>
                 <th className="w-[20%] text-center">Qty</th>
                 <th className="w-[25%] text-right">Total</th>
@@ -113,11 +113,11 @@ export function Receipt({ data, orderNumber }: ReceiptProps) {
             </tbody>
           </table>
 
-          <hr className="border-dashed border-zinc-300" />
+          <hr className="border-dashed border-zinc-300 dark:border-zinc-600" />
 
           {data.shippingCost && data.shippingCost > 0 && (
             <div className="mt-2 flex items-center justify-between text-[11px]">
-              <span className="text-zinc-500">Ongkir</span>
+              <span className="text-zinc-500 dark:text-zinc-400">Ongkir</span>
               <span>{formatPrice(data.shippingCost)}</span>
             </div>
           )}
@@ -126,9 +126,9 @@ export function Receipt({ data, orderNumber }: ReceiptProps) {
             <span className="text-base font-bold">{formatPrice(data.totalAmount)}</span>
           </div>
 
-          <hr className="border-dashed border-zinc-300" />
+          <hr className="border-dashed border-zinc-300 dark:border-zinc-600" />
 
-          <p className="mt-4 text-center text-[9px] leading-relaxed text-zinc-400">
+          <p className="mt-4 text-center text-[9px] leading-relaxed text-zinc-400 dark:text-zinc-500">
             Terima kasih telah berbelanja<br />di MyFurni
           </p>
         </div>
