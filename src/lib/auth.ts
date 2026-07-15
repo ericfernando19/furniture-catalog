@@ -1,10 +1,7 @@
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-
-const secret = new TextEncoder().encode(process.env.JWT_SECRET || "fallback-secret");
-const COOKIE_NAME = "session";
-const SESSION_DURATION = 60 * 60 * 24; // 1 day
+import { getJwtSecret, COOKIE_NAME, SESSION_MAX_AGE } from "@/lib/secret";
 
 interface SessionPayload {
   adminId: number;
@@ -15,17 +12,8 @@ export async function createSession(payload: SessionPayload): Promise<string> {
   const token = await new SignJWT(payload as unknown as Record<string, unknown>)
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
-    .setExpirationTime(`${SESSION_DURATION}s`)
-    .sign(secret);
-
-  const cookieStore = await cookies();
-  cookieStore.set(COOKIE_NAME, token, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    maxAge: SESSION_DURATION,
-    path: "/",
-  });
+    .setExpirationTime(`${SESSION_MAX_AGE}s`)
+    .sign(getJwtSecret());
 
   return token;
 }
@@ -36,7 +24,7 @@ export async function getSession(): Promise<SessionPayload | null> {
     const token = cookieStore.get(COOKIE_NAME)?.value;
     if (!token) return null;
 
-    const { payload } = await jwtVerify(token, secret);
+    const { payload } = await jwtVerify(token, getJwtSecret());
     return payload as unknown as SessionPayload;
   } catch {
     return null;
@@ -45,13 +33,7 @@ export async function getSession(): Promise<SessionPayload | null> {
 
 export async function destroySession(): Promise<void> {
   const cookieStore = await cookies();
-  cookieStore.set(COOKIE_NAME, "", {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    maxAge: 0,
-    path: "/",
-  });
+  cookieStore.delete(COOKIE_NAME);
 }
 
 export async function requireAdmin(): Promise<SessionPayload> {

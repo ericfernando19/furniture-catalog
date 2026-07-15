@@ -33,7 +33,7 @@ export function LoginForm() {
     }
 
     toast.success("Login berhasil!");
-    window.location.href = "/admin/dashboard";
+    window.location.replace("/admin/dashboard");
   }
 
   return (

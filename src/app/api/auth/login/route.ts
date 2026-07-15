@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { createSession } from "@/lib/auth";
+import { COOKIE_NAME, SESSION_MAX_AGE } from "@/lib/secret";
 
 export async function POST(request: Request) {
   try {
@@ -21,9 +22,14 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Username atau password salah" }, { status: 401 });
     }
 
-    await createSession({ adminId: admin.id, username: admin.username });
+    const token = await createSession({ adminId: admin.id, username: admin.username });
 
-    return NextResponse.json({ success: true });
+    const cookie = `${COOKIE_NAME}=${token}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${SESSION_MAX_AGE}`;
+
+    const response = NextResponse.json({ success: true });
+    response.headers.append("Set-Cookie", cookie);
+
+    return response;
   } catch {
     return NextResponse.json({ error: "Terjadi kesalahan" }, { status: 500 });
   }
