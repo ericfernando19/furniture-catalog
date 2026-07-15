@@ -1,5 +1,5 @@
-import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
+import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { createSession } from "@/lib/auth";
@@ -34,7 +34,17 @@ export async function POST(request: Request) {
       maxAge: SESSION_MAX_AGE,
     });
 
-    return NextResponse.json({ success: true });
+    const cookieStr = `${COOKIE_NAME}=${token}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${SESSION_MAX_AGE}`;
+
+    const response = new Response(JSON.stringify({ success: true }), {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json",
+        "Set-Cookie": cookieStr,
+      },
+    });
+
+    return response;
   } catch {
     return NextResponse.json({ error: "Terjadi kesalahan" }, { status: 500 });
   }

@@ -1,10 +1,9 @@
-import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
+import { NextResponse } from "next/server";
 import { COOKIE_NAME } from "@/lib/secret";
 
-export async function GET(request: Request) {
-  const origin = new URL(request.url).origin;
+export async function POST() {
   const cookieStore = await cookies();
   cookieStore.delete(COOKIE_NAME);
-  return NextResponse.redirect(new URL("/admin/login", origin));
+  return NextResponse.redirect(new URL("/admin/login", process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"));
 }

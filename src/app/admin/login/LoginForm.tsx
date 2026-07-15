@@ -1,34 +1,73 @@
 "use client";
 
-import { useActionState } from "react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { loginSchema, type LoginInput } from "@/validations";
 import { Input } from "@/components/ui/Input";
-import { loginAction } from "./actions";
+import { useToast } from "@/hooks/useToast";
 
 export function LoginForm() {
-  const [state, action, isPending] = useActionState(loginAction, null);
+  const toast = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginInput>({
+    resolver: zodResolver(loginSchema),
+  });
+
+  async function onSubmit(data: LoginInput) {
+    setIsSubmitting(true);
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
+        body: JSON.stringify(data),
+      });
+
+      const result = await res.json();
+
+      if (!res.ok) {
+        toast.error(result.error || "Login gagal");
+        return;
+      }
+
+      toast.success("Login berhasil!");
+      window.location.href = "/admin/dashboard";
+    } catch {
+      toast.error("Terjadi kesalahan jaringan");
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
 
   return (
-    <form action={action} className="space-y-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <Input
         id="username"
-        name="username"
         label="Username"
         placeholder="admin"
-        error={state?.error && !isPending ? state.error : undefined}
+        error={errors.username?.message}
+        {...register("username")}
       />
       <Input
         id="password"
-        name="password"
         label="Password"
         type="password"
         placeholder="••••••••"
+        error={errors.password?.message}
+        {...register("password")}
       />
       <button
         type="submit"
-        disabled={isPending}
+        disabled={isSubmitting}
         className="mt-2 w-full rounded-lg bg-amber-600 px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-amber-700 active:scale-[0.98] disabled:opacity-50"
       >
-        {isPending ? "Memproses..." : "Masuk"}
+        {isSubmitting ? "Memproses..." : "Masuk"}
       </button>
     </form>
   );
