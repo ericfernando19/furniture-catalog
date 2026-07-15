@@ -42,6 +42,10 @@ export function NotificationBell() {
   const fetchNotifications = useCallback(async () => {
     try {
       const res = await fetch("/api/notifications");
+      if (res.status === 401) {
+        if (intervalRef.current) clearInterval(intervalRef.current);
+        return;
+      }
       if (res.ok) {
         const json = await res.json();
         setData(json);
