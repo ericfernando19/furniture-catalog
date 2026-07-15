@@ -5,10 +5,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, type LoginInput } from "@/validations";
 import { Input } from "@/components/ui/Input";
 import { useToast } from "@/hooks/useToast";
-import { useRouter } from "next/navigation";
 
 export function LoginForm() {
-  const router = useRouter();
   const toast = useToast();
 
   const {
@@ -23,6 +21,7 @@ export function LoginForm() {
     const res = await fetch("/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      credentials: "same-origin",
       body: JSON.stringify(data),
     });
 
@@ -34,7 +33,7 @@ export function LoginForm() {
     }
 
     toast.success("Login berhasil!");
-    router.push("/admin/dashboard");
+    window.location.href = "/admin/dashboard";
   }
 
   return (
